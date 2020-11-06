@@ -42,7 +42,7 @@ proofs.  % Mathematicians Only: prolonged scenes of intense rigor.
 \visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
 \section*{Section Starter Question}
 
-What is the baseball statistic known as OPS\@?  How is this statistic
+What is the baseball statistic known as \( \mathit{OPS} \)?  How is this statistic
 used?
 
 \hr
@@ -67,8 +67,8 @@ used?
 \section*{Vocabulary}
 \begin{enumerate}
     \item
-        The key new statistic is how many runs will a team score if it
-        uses this player for every plate appearance, called \defn{Markov
+        A new baseball statistic is how many runs will a team score if it
+        uses a player for every plate appearance, called \defn{Markov
         runs}.
     \item
         The \defn{On-base plus slugging} statistic or OPS is the sum of
@@ -119,7 +119,9 @@ on base or where players are located when the third out is made.  Table~%
 possible runners and outs states.  Figure~%
 \ref{fig:baseball:states} is a diagram of the states along with a few
 sample transitions.  The model tracks runs scored separately, runs are
-not part of the states.
+not part of the states.  Osbourne \emph{et al.}, \cite{osbourne20},
+use the same set of states with more descriptive state labels but
+ordering them left to right in a row, then row by row. 
 \begin{table}
     \centering
     \begin{tabular}{cccccccccc}
@@ -361,12 +363,29 @@ requires simplifying assumptions.
         can score on a single or a double.  Likewise Pankin implies that
         a change from state \( 23 \) to \( 23 \) is possible which would
         be a single allowing one run from third, advancing the runners
-        on first and second one base.  This is not assumed here.
+        on first and second one base.  As another example, Osbourne
+        \emph{et al.}~\cite{osbourne20}
+        show how to estimate the probabilities that with no outs and a
+        baserunner on first, after a single the baserunner advances to
+        second or third, or even scores all the way from first.
+        The simpler Markov chain model here does not
+        assume these additional baserunning and scoring refinements.
+      \item
+        Bukiet \emph{et al.} \cite{bukiet97} present an algorithm
+      to carry Markov calculations for one inning forward across a
+      full game, keeping track of the probability distribution of runs
+      scored, instead of just a half-inning considered here.
 \end{enumerate}
 Each assumption can be relaxed at the cost of more states and a larger
-transition probability matrix, or using more detailed player statistics
-or both.  The intent here is to show how to model baseball as a Markov
-chain, in the process creating a new player evaluation statistic.
+transition probability matrix, or using more detailed player
+statistics or both.  For example, Osbourne \emph{et
+  al.}~\cite{osbourne20} show how to estimate the probability of a
+sacrifice fly or grounding into a double play.  However they
+specifically neglect events such as a four-base error in transition
+\( P_{1,1} \), or reaching base by error, or by hit-by-pitch, also
+ignored here.  The intent here is to show how to model baseball as a
+relatively simple Markov chain, in the process creating a new player
+evaluation statistic.
 
 %% player stats
 A particular batter H determines a twenty-five by twenty-five matrix
@@ -452,10 +471,10 @@ vales for \( (\pi_O, \pi_B, \pi_1, \pi_2, \pi_3 \pi_4) \).
 
 %% Markov runs
 Keeping track of runs scored will be an important outcome of the model.
-The key new statistic is how many runs will a team score by using this
-player for every plate appearance.  This new statistic is called \defn{Markov
-runs}.%
-\index{Markov runs}
+The new statistic called Markov runs
+\index{Markov runs}%
+is how many runs a team could score by using this
+player for every plate appearance.  The complete definition follows.
 Cover and Keilers
 \cite{cover77} call this the \emph{Offensive Earned-Run Average} or OREA
 but that term seems to be no longer used.  This statistic, normalized
@@ -554,7 +573,8 @@ The elementary model here assumes a series of identical batters, of
 course this does not happen in real games. This has been the major
 criticism of the applicability of Markov models. But emphasizing again,
 it is possible to have a Markov model with different transition matrices
-for each batter.  Then the assumption of stationarity is dropped and the
+for each batter, see \cite{osbourne20} for an example.
+Then the assumption of stationarity is dropped and the
 probability transition matrix changes with each batter according to that
 batter's statistics.  Instead of powers of one transition matrix \( P \),
 use products of the matrices for each batter:  \( P_1 P_2 \), \( P_1 P_2
@@ -574,7 +594,7 @@ of ways and the utility is limited only by the amount of data available.
 
 \subsection*{Sources} This section is adapted from the articles
 \cite{cover77},
-\cite{dangelo10}, and
+\cite{dangelo10}, \cite{osbourne20} and
 \cite{pankin}.  Each of those articles has many further references.  The
 online article \link{http://statshacker.com/blog/2018/05/07/the-markov-chain-model-of-baseball/}
 {The Markov Chain Model of Baseball} has the same basic information as
