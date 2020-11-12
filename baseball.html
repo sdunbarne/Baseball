@@ -1,0 +1,3483 @@
+<!DOCTYPE html> 
+<html> 
+<head> <title></title> 
+<meta charset="UTF-8" /> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)" /> 
+<link rel="stylesheet" type="text/css" href="baseball.css" /> 
+<script type="text/javascript" 
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" 
+></script> 
+<style type="text/css"> 
+.MathJax_MathML {text-indent: 0;} 
+</style> 
+</head><body 
+>
+<!--l. 8--><p class="noindent" >Steven R. Dunbar <br 
+class="newline" />Department of Mathematics <br 
+class="newline" />203 Avery Hall <br 
+class="newline" />University of Nebraska-Lincoln <br 
+class="newline" />Lincoln, NE 68588-0130 <br 
+class="newline" /><span 
+class="cmtt-12">http://www.math.unl.edu </span><br 
+class="newline" />Voice: 402-472-3731 <br 
+class="newline" />Fax: 402-472-8466                  </p>
+<div class="center" 
+>
+<!--l. 1--><p class="noindent" >
+</p><!--l. 6--><p class="noindent" > <span 
+class="cmbx-12x-x-144">Topics in</span><br />
+<span 
+class="cmbx-12x-x-144">Probability Theory and Stochastic Processes</span><br />
+<span 
+class="cmbx-12x-x-144">Steven R. Dunbar</span>
+</p></div>
+<!--l. 19--><p class="noindent" >__________________________________________________________________________
+</p>
+<div class="center" 
+>
+<!--l. 21--><p class="noindent" >
+</p><!--l. 21--><p class="noindent" ><span 
+class="cmr-17">A Markov Chain Model of Baseball</span></p></div>
+<!--l. 23--><p class="indent" >   _______________________________________________________________________
+</p><!--l. 15--><p class="indent" >   Note: These pages are prepared with MathJax. MathJax is an open source
+JavaScript display engine for mathematics that works in all browsers.
+See http://mathjax.org for details on supported browsers, accessibility,
+copy-and-paste, and other features.
+</p><!--l. 27--><p class="indent" >   _______________________________________________________________________________________________
+</p><!--l. 34--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/rating.png" alt="Rating"  
+ />
+                                                                          
+
+                                                                          
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-1000"></a>Rating</h3>
+<!--l. 38--><p class="noindent" >Mathematically Mature: may contain mathematics beyond calculus with
+proofs.
+</p><!--l. 41--><p class="indent" >   _______________________________________________________________________________________________
+</p><!--l. 43--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/question_mark.png" alt="Section Starter Question"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-2000"></a>Section Starter Question</h3>
+<!--l. 46--><p class="noindent" >What is the baseball statistic known as
+<!--l. 46--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">OPS</mi></mrow></math>? How
+is this statistic used?
+</p><!--l. 49--><p class="indent" >   _______________________________________________________________________________________________
+</p><!--l. 51--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/keyconcepts.png" alt="Key Concepts"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-3000"></a>Key Concepts</h3>
+<!--l. 55--><p class="noindent" >
+      </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   1. </dt><dd 
+class="enumerate-enumitem">The goal is to model a half-inning of a baseball game as a Markov chain
+      to &#xFB01;nd the expected number of runs a player will score as a means of
+      evaluating and comparing players.
+      </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem">The expected number of runs a player will score uses the standard
+      partition of the transition probability matrix over the transient and
+      absorbing states.</dd></dl>
+<!--l. 65--><p class="noindent" >__________________________________________________________________________
+</p><!--l. 67--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/vocabulary.png" alt="Vocabulary"  
+ />
+                                                                          
+
+                                                                          
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-4000"></a>Vocabulary</h3>
+<!--l. 70--><p class="noindent" >
+      </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   1. </dt><dd 
+class="enumerate-enumitem">A new baseball statistic is how many runs will a team score if it uses a
+      player for every plate appearance, called <span 
+class="cmbx-12">Markov runs</span>.
+      </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem">The <span 
+class="cmbx-12">On-base plus slugging </span>statistic or OPS is the sum of a player&#x2019;s
+      slugging average and his on-base average.</dd></dl>
+<!--l. 79--><p class="noindent" >__________________________________________________________________________
+</p><!--l. 81--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/mathematicalideas.png" alt="Mathematical Ideas"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-5000"></a>Mathematical Ideas</h3>
+<!--l. 83--><p class="noindent" >
+</p>
+   <h4 class="likesubsectionHead"><a 
+ id="x1-6000"></a></h4>
+<!--l. 86--><p class="noindent" >This section assumes familiarity with the rules and terminology of American
+baseball and some of the statistics associated with baseball players. The goal is to
+model a half-inning of a baseball game as a Markov chain to &#xFB01;nd the expected
+number of runs a player will score as a means of evaluating and comparing
+players.
+</p><!--l. 95--><p class="indent" >   The Markov chain will be the sequence of situations arising in a half-inning of
+a baseball game. In this Markov chain model of baseball each step will be a plate
+appearance. A plate appearance is similar to an at-bat, but includes walks, hit
+batters, and sacri&#xFB01;ces that recorded baseball does not regard as an o&#xFB03;cial at-bat.
+In this baseball model, the states are the runners on base together with a count of
+the present outs. Each plate appearance has eight possibilities for the runners on
+base: </p>
+                                                                          
+
+                                                                          
+      <ul class="itemize1">
+      <li class="itemize">the bases can be empty;
+      </li>
+      <li class="itemize">there can be one runner on &#xFB01;rst, second, or third base;
+      </li>
+      <li class="itemize">there can be two runners on base in three di&#xFB00;erent ways; or
+      </li>
+      <li class="itemize">the bases can be loaded.</li></ul>
+<!--l. 113--><p class="noindent" >The number of outs can be <!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>0</mn></mrow></math>,
+<!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn></mrow></math>, or
+<!--l. 113--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn></mrow></math> to make
+twenty-four states. All situations with three outs are the same, and this situation is the
+&#xFB01;nal <!--l. 115--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn></mrow></math>th
+absorbing state. Once the game reaches this state, the half-inning
+ends and the Markov chain is stopped. This simpli&#xFB01;ed model takes no
+account of how many players are on base or where players are located
+when the third out is made. Table&#x00A0;<a 
+href="#x1-60011">1<!--tex4ht:ref: tab:baseball:states --></a> below gives the labeling of the
+<!--l. 119--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>4</mn></mrow></math>
+possible runners and outs states. Figure&#x00A0;<a 
+href="#x1-60021">1<!--tex4ht:ref: fig:baseball:states --></a> is a diagram of the states along with a
+few sample transitions. The model tracks runs scored separately, runs are not part
+of the states. Osbourne <span 
+class="cmti-12">et al.</span>, <span class="cite">&#x005B;<a 
+href="#Xosbourne20">4</a>&#x005D;</span>, use the same set of states with more descriptive
+state labels but ordering them left to right in a row, then row by row.
+</p><div class="table">
+<!--l. 127--><p class="indent" >   <a 
+ id="x1-60011"></a></p><hr class="float" /><div class="float" 
+>
+                                                                          
+
+                                                                          
+<div class="tabular">
+ <table id="TBL-1" class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-1-1g"><col 
+id="TBL-1-1" /><col 
+id="TBL-1-2" /><col 
+id="TBL-1-3" /><col 
+id="TBL-1-4" /><col 
+id="TBL-1-5" /><col 
+id="TBL-1-6" /><col 
+id="TBL-1-7" /><col 
+id="TBL-1-8" /><col 
+id="TBL-1-9" /><col 
+id="TBL-1-10" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-1-1-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-1"  
+class="td11">Runners:</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-2"  
+class="td11">None</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-3"  
+class="td11">1st</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-4"  
+class="td11">2nd</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-5"  
+class="td11">3rd</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-6"  
+class="td11">1&#x0026;2</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-7"  
+class="td11">1&#x0026;3</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-8"  
+class="td11">2&#x0026;3</td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-1-9"  
+class="td11">1,2,&#x0026;3</td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-2-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-1"  
+class="td11">  Outs   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-2"  
+class="td11">    </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-3"  
+class="td11">  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-4"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-5"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-6"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-7"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-8"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-2-9"  
+class="td11">     </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-3-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-1"  
+class="td11"> 0 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-2"  
+class="td11"> 1 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-3"  
+class="td11"> 4 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-4"  
+class="td11"> 7 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-5"  
+class="td11"> 10 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-6"  
+class="td11"> 13 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-7"  
+class="td11"> 16 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-8"  
+class="td11"> 19 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-3-9"  
+class="td11"> 22</td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-4-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-1"  
+class="td11">    1      </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-2"  
+class="td11">  2   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-3"  
+class="td11"> 5 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-4"  
+class="td11"> 8  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-5"  
+class="td11"> 11 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-6"  
+class="td11"> 14 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-7"  
+class="td11"> 17 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-8"  
+class="td11"> 20 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-4-9"  
+class="td11">  23   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-5-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-1"  
+class="td11">    2      </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-2"  
+class="td11">  3   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-3"  
+class="td11"> 6 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-4"  
+class="td11"> 9  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-5"  
+class="td11"> 12 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-6"  
+class="td11"> 15 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-7"  
+class="td11"> 18 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-8"  
+class="td11"> 21 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-5-9"  
+class="td11">  24   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-6-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-1"  
+class="td11">    3      </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-2"  
+class="td11"> 25  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-3"  
+class="td11">  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-4"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-5"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-6"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-7"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-8"  
+class="td11">   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-1-6-9"  
+class="td11">     </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-7-"><td  style="text-align:center; white-space:nowrap;" id="TBL-1-7-1"  
+class="td11">        </td></tr></table></div>
+<br /> <div class="caption" 
+><span class="id">Table&#x00A0;1: </span><span  
+class="content">States of the Markov chain model of a half inning of baseball</span></div><!--tex4ht:label?: x1-60011 -->
+                                                                          
+
+                                                                          
+   </div><hr class="endfloat" />
+   </div>
+   <hr class="figure" /><div class="figure" 
+>
+                                                                          
+     <p class="indent"> <img
+     src="baseball-1.png", alt="States of the Markov chain model of a
+				half inning">
+                                                                          
+<a 
+ id="x1-60021"></a>
+                                                                          
+
+                                                                          
+<br /> <div class="caption" 
+><span class="id">Figure&#x00A0;1: </span><span  
+class="content">The state diagram for the Markov chain model of a half-inning of
+baseball, with only transitions from state 1 indicated as an example.</span></div><!--tex4ht:label?: x1-60021 -->
+                                                                          
+
+                                                                          
+   </div><hr class="endfigure" />
+<!--l. 274--><p class="indent" >   Denote the probability of moving from one state
+<!--l. 274--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi></mrow></math> to
+state <!--l. 274--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>j</mi></mrow></math>
+by <!--l. 275--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>j</mi></mrow></msub 
+></mrow></math>.
+Many transitions are impossible, such as a transition to a state with fewer outs,
+and hence have probabilities equal to zero. Using the numbering above,
+<!--l. 277--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mo 
+class="MathClass-punc">,</mo><mn>4</mn></mrow></msub 
+></mrow></math> is the
+probability of going from no outs and none on to a runner on &#xFB01;rst with no outs,
+which in turn is equal to the probability of a single plus the probability of a walk.
+In real baseball, there are other possibilities for this transition such as a
+wild pitch, but this simpli&#xFB01;ed model ignores them. In certain situations
+di&#xFB00;erent actions by the batter produce the same e&#xFB00;ect. As can be seen in
+Figure&#x00A0;<a 
+href="#x1-60021">1<!--tex4ht:ref: fig:baseball:states --></a>, if no one is on base, then a single and a walk have the same
+e&#xFB00;ect. The probability of each event adds to give the state transition
+probability.
+</p><!--l. 288--><p class="indent" >   For this model imagine that the player bats randomly with plate outcomes
+distributed according to his statistical pro&#xFB01;le. Plate appearances are independent.
+In other words, a player&#x2019;s chance of getting a speci&#xFB01;c kind of hit or making a
+speci&#xFB01;c kind of out is independent of how many runners are on and the number of
+outs. Based on this pro&#xFB01;le, compute the transition probabilities for each pair of
+states, obtaining a Markov chain. The transition probabilities could come from
+player statistics from the previous year, the current year, or the career, but
+must use the same pro&#xFB01;le each time. The transition probability matrix
+<!--l. 296--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi></mrow></math>, whose
+entries are <!--l. 297--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-punc">,</mo><mi 
+>j</mi></mrow></msub 
+></mrow></math>
+governs the evolution of the half inning. By the properties of matrix multiplication,
+<!--l. 298--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+></mrow></math>
+is the transition matrix for sequences of two plays or batters,
+<!--l. 299--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+></mrow></math>
+is the transition matrix for sequences of three batters, and so on, for
+a string of identical batters. This assumption is useful for computing
+<span 
+class="cmti-12">average </span>performance which is the goal here, but not for speci&#xFB01;c game
+situations.
+</p><!--l. 306--><p class="indent" >   Encoding the half inning of the game in the transition matrix like this requires
+simplifying assumptions.
+      </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+                                                                          
+
+                                                                          
+   1. </dt><dd 
+class="enumerate-enumitem">The Markov property assumption means that we don&#x2019;t care how we
+      arrived at a particular situation. For example, if there is a runner on
+      &#xFB01;rst  and  no  outs,  the  Markov  chain  model  is  not  concerned  about
+      whether there was a walk or a single.
+      </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem">More   speci&#xFB01;cally,   the   Markov   property   assumption   deliberately
+      eliminates the possibility of a <span 
+class="cmti-12">clutch hitter</span>. Such a player allegedly hits
+      better when the situation matters more, but numerical studies indicate
+      that the concept is an illusion.
+      </dd><dt class="enumerate-enumitem">
+   3. </dt><dd 
+class="enumerate-enumitem">This model ignores situations such as stolen bases or pick-o&#xFB00;s that
+      could occur during the plate appearance, changing the state without
+      action from the player in his plate appearance.
+      </dd><dt class="enumerate-enumitem">
+   4. </dt><dd 
+class="enumerate-enumitem">The model ignores double plays, sacri&#xFB01;ce bunts, and sacri&#xFB01;ce &#xFB02;ies.
+      </dd><dt class="enumerate-enumitem">
+   5. </dt><dd 
+class="enumerate-enumitem">The model ignores runs scored while incurring the third out.
+      </dd><dt class="enumerate-enumitem">
+   6. </dt><dd 
+class="enumerate-enumitem">An  important  simplifying  assumption  is  that  the  matrix  is  time
+      independent, and each plate appearance is an independent event. In
+      real baseball, as pitchers and batters face each other multiple times,
+      each adjusts to the other, changing the probabilities. Fatigue may also
+      be a factor as a game progresses.
+      </dd><dt class="enumerate-enumitem">
+   7. </dt><dd 
+class="enumerate-enumitem">Another  related  assumption  is  that  the  batter&#x2019;s  outcomes  do  not
+      depend on the pitcher and what the pitcher does is not dependent on
+      the hitter. The probabilities remain constant, regardless of the current
+      match-up and previous encounters between pitcher and hitter.
+      </dd><dt class="enumerate-enumitem">
+   8. </dt><dd 
+class="enumerate-enumitem">A related question is whether players get &#x201C;hot&#x201D; or &#x201C;cold&#x201D;, the model
+      ignores this possibility.
+                                                                          
+
+                                                                          
+      </dd><dt class="enumerate-enumitem">
+   9. </dt><dd 
+class="enumerate-enumitem">Already mentioned above is the assumption that a single advances a
+      runner by two bases. For example, in states <!--l. 346--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>4</mn></mrow></math>,
+      <!--l. 346--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>5</mn></mrow></math>,
+      or <!--l. 347--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math>
+      with runner on &#xFB01;rst, a single by the hitter moves the base runner to
+      third base, leaving the chain in states <!--l. 348--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>6</mn></mrow></math>,
+      <!--l. 349--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>7</mn></mrow></math>,
+      or <!--l. 349--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>8</mn></mrow></math>
+      respectively.  Also,  assume  that  a  double  advances  each  runner  two
+      bases, so that in states <!--l. 350--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>4</mn></mrow></math>,
+      <!--l. 351--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>5</mn></mrow></math>,
+      or <!--l. 351--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math>
+      with runner on &#xFB01;rst, a double by the hitter moves the base runner to
+      third base, leaving the chain in states <!--l. 353--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>9</mn></mrow></math>,
+      <!--l. 353--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>0</mn></mrow></math>,
+      or <!--l. 353--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>1</mn></mrow></math>.
+      In contrast, in&#x00A0;<span class="cite">&#x005B;<a 
+href="#Xcover77">2</a>&#x005D;</span> Cover and Keilers explicitly make the assumption
+      that &#x201C;All singles and doubles are assumed to be long. That is, a single
+      advances a baserunner two bases, and a double scores a runner from
+      &#xFB01;rst base.&#x201D; On the other hand, Pankin&#x00A0;<span class="cite">&#x005B;<a 
+href="#Xpankin">5</a>&#x005D;</span> is not explicit about this
+      assumption, but the sample calculations of <!--l. 359--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>R</mi></mrow></math>
+      imply that more detailed base running plays have non-zero probability.
+      For instance, Pankin implies the possibility that bases loaded with one
+      out &#x0028;state <!--l. 361--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>3</mn></mrow></math>&#x0029;
+      can change to state <!--l. 362--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>5</mn></mrow></math>
+      or <!--l. 362--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>8</mn></mrow></math>
+      meaning that a runner on &#xFB01;rst, as well as the two runners on second and
+      third, can score on a single or a double. Likewise Pankin implies that a
+      change from state <!--l. 365--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>3</mn></mrow></math>
+      to <!--l. 365--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>3</mn></mrow></math>
+      is possible which would be a single allowing one run from third, advancing
+      the runners on &#xFB01;rst and second one base. As another example, Osbourne
+      <span 
+class="cmti-12">et al.</span>&#x00A0;<span class="cite">&#x005B;<a 
+href="#Xosbourne20">4</a>&#x005D;</span> show how to estimate the probabilities that with no outs and
+      a baserunner on &#xFB01;rst, after a single the baserunner advances to second
+      or third, or even scores all the way from &#xFB01;rst. The simpler Markov chain
+      model here does not assume these additional baserunning and scoring
+      re&#xFB01;nements.
+                                                                          
+
+                                                                          
+      </dd><dt class="enumerate-enumitem">
+  10. </dt><dd 
+class="enumerate-enumitem">Bukiet <span 
+class="cmti-12">et al. </span><span class="cite">&#x005B;<a 
+href="#Xbukiet97">1</a>&#x005D;</span> present an algorithm to carry Markov calculations for
+      one inning forward across a full game, keeping track of the probability
+      distribution of runs scored, instead of just a half-inning considered here.</dd></dl>
+<!--l. 380--><p class="noindent" >Each assumption can be relaxed at the cost of more states and a larger
+transition probability matrix, or using more detailed player statistics
+or both. For example, Osbourne <span 
+class="cmti-12">et al.</span>&#x00A0;<span class="cite">&#x005B;<a 
+href="#Xosbourne20">4</a>&#x005D;</span> show how to estimate the
+probability of a sacri&#xFB01;ce &#xFB02;y or grounding into a double play. However
+they speci&#xFB01;cally neglect events such as a four-base error in transition
+<!--l. 386--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn></mrow></msub 
+></mrow></math>, or
+reaching base by error, or by hit-by-pitch, also ignored here. The intent here is to
+show how to model baseball as a relatively simple Markov chain, in the process
+creating a new player evaluation statistic.
+</p><!--l. 392--><p class="indent" >   A particular batter H determines a twenty-&#xFB01;ve by twenty-&#xFB01;ve matrix
+<!--l. 393--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>H</mi></mrow></msub 
+></mrow></math>
+from his statistical pro&#xFB01;le. For convenience, write the player&#x2019;s
+pro&#xFB01;le as follows, deviating slightly from the standard listing. Here
+<!--l. 395--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AB</mi></mrow></math> denotes at-bats,
+<!--l. 395--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>S</mi></mrow></math> denotes singles,
+<!--l. 396--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>D</mi></mrow></math> denotes doubles,
+<!--l. 396--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>T</mi></mrow></math> denotes triples,
+<!--l. 397--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">HR</mi></mrow></math> denotes home runs,
+<!--l. 397--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">BB</mi></mrow></math> denotes walks plus
+hit batters, <!--l. 398--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AVE</mi></mrow></math> denotes
+batting average <!--l. 399--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mi 
+>S</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>D</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>T</mi> <mo 
+class="MathClass-bin">+</mo> <mi mathvariant="italic">HR</mi></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mo 
+class="MathClass-bin">&#x2215;</mo><mi mathvariant="italic">AB</mi></mrow></math>,
+<!--l. 399--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">SA</mi></mrow></math> denotes slugging
+average <!--l. 401--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mn>1</mn> <mo 
+class="MathClass-bin">&#x22C5;</mo> <mi 
+>S</mi> <mo 
+class="MathClass-bin">+</mo> <mn>2</mn> <mo 
+class="MathClass-bin">&#x22C5;</mo> <mi 
+>D</mi> <mo 
+class="MathClass-bin">+</mo> <mn>3</mn> <mo 
+class="MathClass-bin">&#x22C5;</mo> <mi 
+>T</mi> <mo 
+class="MathClass-bin">+</mo> <mn>4</mn> <mo 
+class="MathClass-bin">&#x22C5;</mo><mi mathvariant="italic">HR</mi></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mo 
+class="MathClass-bin">&#x2215;</mo><mi mathvariant="italic">AB</mi></mrow></math>,
+a measure of the batting productivity of a player,
+<!--l. 403--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">OB</mi></mrow></math> denotes on-base
+average <!--l. 404--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mi mathvariant="italic">BB</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>S</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>D</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>T</mi> <mo 
+class="MathClass-bin">+</mo> <mi mathvariant="italic">HR</mi></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mo 
+class="MathClass-bin">&#x2215;</mo><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mi mathvariant="italic">AB</mi> <mo 
+class="MathClass-bin">+</mo> <mi mathvariant="italic">BB</mi></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow></math>,
+and <!--l. 405--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">OPS</mi> <mo 
+class="MathClass-rel">=</mo> <mi mathvariant="italic">OB</mi> <mo 
+class="MathClass-bin">+</mo> <mi mathvariant="italic">SA</mi></mrow></math>
+measuring the ability of a player both to get on base and to hit for power, two
+important o&#xFB00;ensive skills. Note that the last four elements depend on the &#xFB01;rst six,
+and hence are not needed. For this model, the number of plate appearances is
+<!--l. 409--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AB</mi> <mo 
+class="MathClass-bin">+</mo> <mi mathvariant="italic">BB</mi></mrow></math>, ignoring
+sacri&#xFB01;ce &#xFB02;ies as in the o&#xFB03;cial score-keeping. In this simpli&#xFB01;ed scenario, all outs are
+equivalent, there is no practical di&#xFB00;erence between a strikeout and a pop-out. As a result,
+                                                                          
+
+                                                                          
+values of <!--l. 413--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">OB</mi></mrow></math>
+and <!--l. 413--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">OPS</mi></mrow></math>
+here di&#xFB00;er slightly from the o&#xFB03;cial records. These statistics give the complete
+pro&#xFB01;le of H for the model. In other words, we know the probabilities that H
+makes each kind of hit or out, draws a walk, gets hit by a pitch, and so
+on.
+</p><!--l. 419--><p class="indent" >   For example, Table&#x00A0;<a 
+href="#x1-60132">2<!--tex4ht:ref: tab:baseball:stats --></a> gives a &#xFB01;ctional line for a hypothetical star player X.
+Table&#x00A0;<a 
+href="#x1-60132">2<!--tex4ht:ref: tab:baseball:stats --></a> also includes 2019 season pro&#xFB01;les for Mike Trout &#x0028;Los Angeles Angels,
+American League MVP for 2019&#x0029; and Cody Bellinger &#x0028;Los Angeles Dodgers,
+National League MVP for 2019&#x0029;. </p><div class="table">
+                                                                          
+
+                                                                          
+<!--l. 426--><p class="indent" >   <a 
+ id="x1-60132"></a></p><hr class="float" /><div class="float" 
+>
+                                                                          
+
+                                                                          
+<div class="tabular">
+ <table id="TBL-2" class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1" /><col 
+id="TBL-2-2" /><col 
+id="TBL-2-3" /><col 
+id="TBL-2-4" /><col 
+id="TBL-2-5" /><col 
+id="TBL-2-6" /><col 
+id="TBL-2-7" /><col 
+id="TBL-2-8" /><col 
+id="TBL-2-9" /><col 
+id="TBL-2-10" /><col 
+id="TBL-2-11" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-1-1"  
+class="td11">  </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-2"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AB</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-3"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>S</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-4"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>D</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-5"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>T</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-6"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">HR</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-7"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">BB</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-8"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AVE</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-9"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>S</mi><mi 
+>A</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-10"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>O</mi><mi 
+>B</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-1-11"  
+class="td11"><!--l. 428--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>O</mi><mi 
+>P</mi><mi 
+>S</mi></mrow></math></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-2-1"  
+class="td11">X   </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-2"  
+class="td11">                              500                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-3"  
+class="td11">                              100                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-4"  
+class="td11">                               25                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-5"  
+class="td11">                               5                                                 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-6"  
+class="td11">                               30                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-7"  
+class="td11">                              100                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-8"  
+class="td11">                              .320                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-9"  
+class="td11">                              .570                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-10"  
+class="td11">                              .433                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-2-11"  
+class="td11">                             1.003                                              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-3-1"  
+class="td11">MT</td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-2"  
+class="td11">                              470                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-3"  
+class="td11">                               63                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-4"  
+class="td11">                               27                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-5"  
+class="td11">                               2                                                 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-6"  
+class="td11">                               45                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-7"  
+class="td11">                              110                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-8"  
+class="td11">                              ,291                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-9"  
+class="td11">                              .438                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-10"  
+class="td11">                              .645                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-3-11"  
+class="td11">                             1.083                                              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-4-1"  
+class="td11">CB </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-2"  
+class="td11">                              558                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-3"  
+class="td11">                               86                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-4"  
+class="td11">                               34                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-5"  
+class="td11">                               3                                                 </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-6"  
+class="td11">                               47                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-7"  
+class="td11">                               95                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-8"  
+class="td11">                              .305                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-9"  
+class="td11">                              .629                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-10"  
+class="td11">                              .406                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-2-4-11"  
+class="td11">                             1.035                                              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-5-"><td  style="text-align:left; white-space:nowrap;" id="TBL-2-5-1"  
+class="td11">   </td></tr></table>
+</div>
+<br /> <div class="caption" 
+><span class="id">Table&#x00A0;2: </span><span  
+class="content">Statistics for representative players.</span></div><!--tex4ht:label?: x1-60132 -->
+                                                                          
+
+                                                                          
+   </div><hr class="endfloat" />
+   </div>
+<!--l. 437--><p class="indent" >   Player X has <!--l. 437--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>5</mn><mn>0</mn><mn>0</mn></mrow></math>
+at-bats but <!--l. 437--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn><mn>0</mn><mn>0</mn></mrow></math>
+plate appearances. In a given plate appearance player X has a
+<!--l. 438--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mfrac><mrow 
+><mn>1</mn></mrow>
+<mrow 
+><mn>6</mn></mrow></mfrac></mrow></math> chance to hit
+a single, a <!--l. 439--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mfrac><mrow 
+><mn>1</mn></mrow>
+<mrow 
+><mn>6</mn></mrow></mfrac></mrow></math>
+chance to reach &#xFB01;rst base by a walk or hit batter, a
+<!--l. 440--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+> <mfrac><mrow 
+><mn>1</mn></mrow>
+<mrow 
+><mn>1</mn><mn>2</mn><mn>0</mn></mrow></mfrac></mrow></math>
+chance to hit a triple, and so on. In this way, from the
+<!--l. 441--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math>
+basic player statistics, compute a probability distribution
+<!--l. 442--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>B</mi></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>4</mn></mrow></msub 
+></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow></math>, where
+<!--l. 443--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+></mrow></math> is the probability of an
+out, <!--l. 443--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>B</mi></mrow></msub 
+></mrow></math> is the probability
+of a base on balls, and <!--l. 444--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>i</mi></mrow></msub 
+></mrow></math> is
+the probability of an <!--l. 445--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi></mrow></math>-base
+hit.
+</p><!--l. 448--><p class="indent" >   A state can change in several ways, for instance state
+<!--l. 448--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>6</mn></mrow></math>
+with runners on &#xFB01;rst and third with no outs can change into states
+<!--l. 449--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>7</mn></mrow></math>,
+<!--l. 450--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>2</mn></mrow></math>,
+<!--l. 450--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>6</mn></mrow></math> itself while scoring
+a run with a single, <!--l. 450--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>9</mn></mrow></math>,
+<!--l. 450--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>0</mn></mrow></math> or
+<!--l. 451--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn></mrow></math>. A
+convenient way to build the transition probability matrix is to compose it from
+<!--l. 452--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math> simpler matrices
+with entries either <!--l. 453--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>0</mn></mrow></math>
+or <!--l. 453--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>x</mi></mrow></msub 
+></mrow></math>, corresponding
+to the <!--l. 453--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math>
+probabilities in the hitter&#x2019;s distribution. For example, for
+<!--l. 454--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+></mrow></math>, the
+probability of an out, the number of outs increases by one and the base
+runners remain the same, which makes a regularly shaped transition matrix
+<!--l. 457--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>0</mn></mrow></msub 
+></mrow></math>, where states with an index
+divisible by <!--l. 457--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>3</mn></mrow></math> transition
+                                                                          
+
+                                                                          
+to the absorbing state <!--l. 458--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn></mrow></math>
+of three outs. All other states advance by
+<!--l. 459--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn></mrow></math> index with
+probability <!--l. 459--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+></mrow></math>.
+Taking <!--l. 459--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+></mrow></math>
+as another example, a triple scores all runners already on base, leaves the
+hitter on third base and the numbers of outs stays the same. Thus in
+<!--l. 462--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+></mrow></math> each state
+transitions to state <!--l. 462--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>0</mn></mrow></math>,
+<!--l. 462--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>1</mn></mrow></math> or
+<!--l. 462--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn><mn>2</mn></mrow></math>
+according to the existing number of outs. The other
+<!--l. 463--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>4</mn></mrow></math>
+matrices are similar, but the advance of states is slightly more
+complicated because of the assumption that runners on base advance by
+<!--l. 465--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn></mrow></math> bases
+on a hit. Finally, the full probability transition matrix is the sum of the
+<!--l. 467--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>6</mn></mrow></math> elementary
+transition matrices: <!--l. 467--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mi 
+>B</mi></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>4</mn></mrow></msub 
+></mrow></math>.
+Set <!--l. 468--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn><mn>5</mn><mo 
+class="MathClass-punc">,</mo><mn>2</mn><mn>5</mn></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn></mrow></math>
+to account for the absorbing end state. The transition probability matrices are too
+large to display here, but the scripts below build the matrices given the vales for
+<!--l. 471--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>O</mi></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>B</mi></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+><mo 
+class="MathClass-punc">,</mo><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mn>4</mn></mrow></msub 
+></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow></math>.
+</p><!--l. 474--><p class="indent" >   Keeping track of runs scored will be an important outcome of the model. The
+new statistic called Markov runs is how many runs a team could score by using
+this player for every plate appearance. The complete de&#xFB01;nition follows. Cover and
+Keilers <span class="cite">&#x005B;<a 
+href="#Xcover77">2</a>&#x005D;</span> call this the <span 
+class="cmti-12">O&#xFB00;ensive Earned-Run Average </span>or OREA but that term
+seems to be no longer used. This statistic, normalized using nine innings, for all
+players each day of the season is available at <a 
+href="https://www.usatoday.com/sports/mlb/sagarin/" >USA Today, Sagarin ratings</a>.. Given
+the player&#x2019;s statistical pro&#xFB01;le, the player bats according to the Markov chain
+model until making three outs. In principle the test is run thousands of times,
+and from it the model determines the average number of runs scored per
+nine innings. However, simple results from Markov chain theory calculate
+the statistics without needing thousands of simulations. From Sagarin
+ratings, a team consisting of &#x0028;nine clones of&#x0029; Mike Trout would average
+<!--l. 490--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>8</mn><mo 
+class="MathClass-punc">.</mo><mn>7</mn><mn>2</mn></mrow></math> runs
+per game.
+</p><!--l. 494--><p class="indent" >   Let <!--l. 494--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>R</mi></mrow></math>
+                                                                          
+
+                                                                          
+be the <!--l. 494--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>1</mn></mrow></math>
+column vector containing the expected or average runs scored
+after each state on one play only. Denoting the elements of
+<!--l. 496--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>R</mi></mrow></math> by
+<!--l. 496--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+></mrow></math>,
+<!--l. 496--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+></mrow></math>, &#x2026;,
+<!--l. 496--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn><mn>5</mn></mrow></msub 
+></mrow></math> some
+example calculations are:
+</p><!--tex4ht:inline--><!--l. 506--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mtable 
+columnalign="left" class="align-star">
+            <mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+></mtd>             <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mstyle 
+class="text"><mtext  >&#x00A0;based&#x00A0;on&#x00A0;a&#x00A0;home&#x00A0;run</mtext></mstyle></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mspace width="2em"/></mtd>                             <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+            <mspace width="2em"/></mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+></mtd>             <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>2</mn><mo 
+class="MathClass-punc">,</mo><mn>2</mn></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mstyle 
+class="text"><mtext  >&#x00A0;based&#x00A0;on&#x00A0;a&#x00A0;home&#x00A0;run</mtext></mstyle></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mspace width="2em"/></mtd>                             <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+            <mspace width="2em"/></mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>6</mn></mrow></msub 
+></mtd>             <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>6</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>2</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>6</mn><mo 
+class="MathClass-punc">,</mo><mn>3</mn></mrow></msub 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mstyle 
+class="text"><mtext  >&#x00A0;based&#x00A0;on&#x00A0;triple&#x00A0;or&#x00A0;a&#x00A0;home&#x00A0;run</mtext></mstyle></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mspace width="2em"/></mtd>            <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+            <mspace width="2em"/></mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>1</mn><mn>7</mn></mrow></msub 
+></mtd>            <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mn>7</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn><mn>7</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mn>7</mn><mo 
+class="MathClass-punc">,</mo><mn>2</mn><mn>0</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>2</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mn>7</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>3</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>1</mn><mn>7</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn></mrow></msub 
+><mspace width="2em"/></mtd>                          <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+            <mspace width="2em"/></mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn><mn>3</mn></mrow></msub 
+></mtd>            <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mn>2</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>2</mn><mn>3</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn><mn>7</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>2</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>2</mn><mn>3</mn><mo 
+class="MathClass-punc">,</mo><mn>2</mn><mn>0</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>3</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>2</mn><mn>3</mn><mo 
+class="MathClass-punc">,</mo><mn>1</mn><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mn>4</mn><msub><mrow 
+><mi 
+>p</mi></mrow><mrow 
+><mn>2</mn><mn>3</mn><mo 
+class="MathClass-punc">,</mo><mn>2</mn></mrow></msub 
+><mspace width="2em"/></mtd>                        <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+            <mspace width="2em"/></mtd></mtr><mtr><mtd 
+columnalign="right" class="align-odd"><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn><mn>5</mn></mrow></msub 
+></mtd>            <mtd 
+class="align-even"> <mo 
+class="MathClass-rel">=</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mspace width="2em"/></mtd>                                                      <mtd 
+columnalign="right" class="align-label"></mtd>            <mtd 
+class="align-label">
+   <mspace width="2em"/></mtd></mtr></mtable></math>
+<!--l. 507--><p class="noindent" >The vector of runs calculated here will be componentwise slightly less than the
+run vector for Cover and Keilers because advances on singles and doubles are less
+than they assume. Likewise, the vector of runs calculated here will be
+componentwise less than the run vector for Pankin because some state transitions
+he considers are ignored here.
+</p><!--l. 513--><p class="indent" >   The key output of the Markov chain baseball model is the computation of the
+expected runs in the rest of the inning after any runners and outs state. Let
+<!--l. 515--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>E</mi></mrow></math> be
+the <!--l. 515--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>1</mn></mrow></math>
+column vector containing these values. Then,
+                                                                          
+
+                                                                          
+</p>
+   <div class="math-display"><!--l. 517--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                             <mi 
+>E</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>R</mi> <mo 
+class="MathClass-bin">+</mo> <mi 
+>P</mi><mi 
+>R</mi> <mo 
+class="MathClass-bin">+</mo> <msup><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><mi 
+>R</mi> <mo 
+class="MathClass-bin">+</mo> <msup><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+><mi 
+>R</mi> <mo 
+class="MathClass-bin">+</mo> <mo 
+class="MathClass-rel">&#x22EF;</mo><mspace width="0.3em" class="thinspace"/><mo 
+class="MathClass-punc">.</mo>
+</mrow></math></div>
+<!--l. 519--><p class="nopar" > This equation says that the expected runs after any state is the sum of
+the expected runs after one plate appearance, the expected runs after
+two plate appearances, and so on theoretically forever. Of course, almost
+surely &#x0028;in the probability sense!&#x0029; the half-inning will end sometime in the
+<!--l. 523--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn></mrow></math>th
+absorption state of three outs. Because the vector of runs calculated here is less than the
+other run vectors, the expected run vector, or Markov runs will be slightly less. Since
+the <!--l. 525--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn></mrow></math>th
+state with <!--l. 526--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>3</mn></mrow></math>
+outs is the only absorbing state and the other
+<!--l. 527--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>4</mn></mrow></math> states are
+transient, the <!--l. 527--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>2</mn><mn>5</mn></mrow></math>
+probability transition matrix partitions into the block matrix
+</p>
+   <div class="math-display"><!--l. 529--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+<mi 
+>P</mi> <mo 
+class="MathClass-rel">=</mo>  <mfenced separators="" 
+open="("  close=")" ><mrow><mtable  align="axis" style=""  
+equalrows="false" columnlines="none none none none none none none none none" equalcolumns="false" class="array"> <mtr><mtd 
+class="array"  columnalign="center"><mi 
+>Q</mi></mtd><mtd 
+class="array"  columnalign="center"><msup><mrow 
+><mi 
+>Q</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mtd>
+</mtr><mtr><mtd 
+class="array"  columnalign="center"><mn>0</mn></mtd><mtd 
+class="array"  columnalign="center"> <mn>1</mn> </mtd></mtr> <!--*\c@MaxMatrixCols c--></mtable>                                                                                           </mrow></mfenced>
+</mrow></math></div>
+                                                                          
+
+                                                                          
+<!--l. 535--><p class="nopar" > where <!--l. 535--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>Q</mi></mrow></math>
+is <!--l. 535--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>4</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>2</mn><mn>4</mn></mrow></math>, and
+<!--l. 535--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>Q</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mrow></math> is
+<!--l. 535--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>4</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>1</mn></mrow></math>. Since no runs are
+scored from the <!--l. 536--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>5</mn></mrow></math>th
+absorbing state, just consider
+</p>
+   <div class="math-display"><!--l. 538--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                           <msup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-rel">=</mo> <msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mi 
+>Q</mi><msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <msup><mrow 
+><mi 
+>Q</mi></mrow><mrow 
+><mn>2</mn></mrow></msup 
+><msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <msup><mrow 
+><mi 
+>Q</mi></mrow><mrow 
+><mn>3</mn></mrow></msup 
+><msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-bin">+</mo> <mo 
+class="MathClass-rel">&#x22EF;</mo><mspace width="0.3em" class="thinspace"/>
+</mrow></math></div>
+<!--l. 540--><p class="nopar" > where <!--l. 540--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mrow></math> and
+<!--l. 540--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mrow></math> are the
+<!--l. 540--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mn>4</mn> <mo 
+class="MathClass-bin">&#x00D7;</mo> <mn>1</mn></mrow></math> subvectors
+of <!--l. 540--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>E</mi></mrow></math>
+and <!--l. 541--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>R</mi></mrow></math>
+corresponding to the &#xFB01;rst 24 entries. By the standard matrix theory, this is equal
+to
+</p>
+   <div class="math-display"><!--l. 543--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                                     <msup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+> <mo 
+class="MathClass-rel">=</mo> <msup><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>I</mi></mrow><mrow 
+>
+<mn>2</mn><mn>4</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">&#x2212;</mo> <mi 
+>Q</mi></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow><mrow 
+><mo 
+class="MathClass-bin">&#x2212;</mo><mn>1</mn></mrow></msup 
+><msup><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+><mo 
+class="MathClass-punc">.</mo>
+</mrow></math></div>
+                                                                          
+
+                                                                          
+<!--l. 545--><p class="nopar" >
+</p><!--l. 547--><p class="indent" >   The expected runs vector <!--l. 547--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mrow></math>
+has useful interpretations. For example, if
+<!--l. 548--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi></mrow></math> includes all events
+for a league, then <!--l. 548--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msup 
+></mrow></math>
+contains the average expected runs scored in the rest of the inning from each
+runners-and-outs state. With enough statistics, similar values for teams, a team&#x2019;s
+home and road games, or for an individual player can be calculated. In the last
+case, we obtain an estimate of run scoring if that player batted all the time. Also,
+by restricting the transitions to those not in&#xFB02;uenced by strategies such as stolen
+bases or sacri&#xFB01;ce bunts, we obtain expected run values to compare with games
+using those strategies.
+</p><!--l. 558--><p class="indent" >   Note that <!--l. 558--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msubsup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mn>1</mn></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msubsup 
+></mrow></math> is
+the expected runs after the no runners, no out state in which all innings begin. Thus the <span 
+class="cmbx-12">Markov</span>
+<span 
+class="cmbx-12">runs </span><!--l. 559--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>9</mn><msubsup><mrow 
+><mi 
+>E</mi></mrow><mrow 
+><mn>1</mn></mrow><mrow 
+><mi 
+>&#x2032;</mi></mrow></msubsup 
+></mrow></math> is the expected
+number of runs per <!--l. 560--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>9</mn></mrow></math>
+half-innings, or per game. This computation is especially interesting when applied
+to an individual player&#x2019;s statistics. It provides another way of estimating how
+many runs per game a player would score by batting all the time. As noted above,
+some baseball statisticians report this number for players, but much more
+common is the <span 
+class="cmbx-12">On-base plus slugging </span>statistic or OPS. For OPS, simply add
+the player&#x2019;s slugging average to his on-base average. This simply computed player
+statistic empirically correlates fairly well with the expected number of runs
+scored using the Markov chain model. More details are in the article by
+D&#x2019;Angelo,<span class="cite">&#x005B;<a 
+href="#Xdangelo10">3</a>&#x005D;</span>
+</p><!--l. 573--><p class="indent" >   The elementary model here assumes a series of identical batters, of course this
+does not happen in real games. This has been the major criticism of the
+applicability of Markov models. But emphasizing again, it is possible to have
+a Markov model with di&#xFB00;erent transition matrices for each batter, see
+<span class="cite">&#x005B;<a 
+href="#Xosbourne20">4</a>&#x005D;</span> for an example. Then the assumption of stationarity is dropped and
+the probability transition matrix changes with each batter according to
+that batter&#x2019;s statistics. Instead of powers of one transition matrix
+<!--l. 580--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi></mrow></math>, use products of the
+matrices for each batter: <!--l. 581--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+></mrow></math>,
+<!--l. 581--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+></mrow></math>,
+etc. Also, the expected runs on the next play column vector
+<!--l. 582--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>R</mi></mrow></math> has
+to be modi&#xFB01;ed for each batter. With such changes, the expected runs generalizes
+                                                                          
+
+                                                                          
+to
+</p>
+   <div class="math-display"><!--l. 585--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                    <mi 
+>E</mi> <mo 
+class="MathClass-rel">=</mo> <msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>1</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>2</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>P</mi></mrow><mrow 
+><mn>3</mn></mrow></msub 
+><msub><mrow 
+><mi 
+>R</mi></mrow><mrow 
+><mn>4</mn></mrow></msub 
+> <mo 
+class="MathClass-bin">+</mo> <mo 
+class="MathClass-rel">&#x22EF;</mo><mspace width="0.3em" class="thinspace"/><mo 
+class="MathClass-punc">.</mo>
+</mrow></math></div>
+<!--l. 587--><p class="nopar" > An additional potential complication is that it may be necessary to repeat the
+calculation for several sequences with di&#xFB00;erent &#xFB01;rst batters and then weight the
+results by the probability of speci&#xFB01;c batters beginning the sequence. The model
+can be expanded in a number of ways and the utility is limited only by the
+amount of data available.
+</p><!--l. 593--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/question_mark.png" alt="Section Starter Question"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-7000"></a>Section Ending Answer</h3>
+<!--l. 596--><p class="noindent" >
+</p>
+   <h4 class="likesubsectionHead"><a 
+ id="x1-8000"></a>Sources</h4>
+<!--l. 596--><p class="noindent" >This section is adapted from the articles <span class="cite">&#x005B;<a 
+href="#Xcover77">2</a>&#x005D;</span>, <span class="cite">&#x005B;<a 
+href="#Xdangelo10">3</a>&#x005D;</span>, <span class="cite">&#x005B;<a 
+href="#Xosbourne20">4</a>&#x005D;</span> and <span class="cite">&#x005B;<a 
+href="#Xpankin">5</a>&#x005D;</span>. Each of those articles
+has many further references. The online article <a 
+href="http://statshacker.com/blog/2018/05/07/the-markov-chain-model-of-baseball/" >The Markov Chain Model of
+Baseball</a>. has the same basic information as this article, but in a condensed
+form.
+</p><!--l. 607--><p class="indent" >   _______________________________________________________________________________________________
+</p><!--l. 609--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/computer.png" alt="Algorithms, Scripts, Simulations"  
+ />
+                                                                          
+
+                                                                          
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-9000"></a>Algorithms, Scripts, Simulations</h3>
+<!--l. 612--><p class="noindent" >
+</p>
+   <h4 class="likesubsectionHead"><a 
+ id="x1-10000"></a>Algorithm</h4>
+<!--l. 614--><p class="noindent" >
+</p>
+   <h4 class="likesubsectionHead"><a 
+ id="x1-11000"></a>Scripts</h4>
+   <!--l. 616-->
+<div class="lstlisting" id="listing-1"><span class="label"><a 
+ id="x1-11001r1"></a><span 
+class="cmr-6">1</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11002r2"></a><span 
+class="cmr-6">2</span></span><span 
+class="cmtt-10">pi_0</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">333/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11003r3"></a><span 
+class="cmr-6">3</span></span><span 
+class="cmtt-10">pi_B</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">126/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11004r4"></a><span 
+class="cmr-6">4</span></span><span 
+class="cmtt-10">pi_1</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">63/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11005r5"></a><span 
+class="cmr-6">5</span></span><span 
+class="cmtt-10">pi_2</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">27/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11006r6"></a><span 
+class="cmr-6">6</span></span><span 
+class="cmtt-10">pi_3</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11007r7"></a><span 
+class="cmr-6">7</span></span><span 
+class="cmtt-10">pi_4</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">45/596</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11008r8"></a><span 
+class="cmr-6">8</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11009r9"></a><span 
+class="cmr-6">9</span></span><span 
+class="cmtt-10">P0</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11010r10"></a><span 
+class="cmr-6">10</span></span><span 
+class="cmtt-10">PB</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11011r11"></a><span 
+class="cmr-6">11</span></span><span 
+class="cmtt-10">P1</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11012r12"></a><span 
+class="cmr-6">12</span></span><span 
+class="cmtt-10">P2</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11013r13"></a><span 
+class="cmr-6">13</span></span><span 
+class="cmtt-10">P3</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11014r14"></a><span 
+class="cmr-6">14</span></span><span 
+class="cmtt-10">P4</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11015r15"></a><span 
+class="cmr-6">15</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11016r16"></a><span 
+class="cmr-6">16</span></span><span 
+class="cmtt-10">##</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">State</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">7</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">13</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">14</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">15</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">22</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11017r17"></a><span 
+class="cmr-6">17</span></span><span 
+class="cmtt-10">transitionOut</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">14,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">15,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11018r18"></a><span 
+class="cmr-6">18</span></span><span 
+class="cmtt-10">transitionBB</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;4,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">13,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">14,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">15,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">13,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">14,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">15,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">22,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">22,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">22,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">22,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">23,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">24&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11019r19"></a><span 
+class="cmr-6">19</span></span><span 
+class="cmtt-10">transition1B</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;4,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">6,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">16,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">17,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">18&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11020r20"></a><span 
+class="cmr-6">20</span></span><span 
+class="cmtt-10">transition2B</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;7,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">7,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">7,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">7,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">8,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">9,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">19,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">20,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">21&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11021r21"></a><span 
+class="cmr-6">21</span></span><span 
+class="cmtt-10">transition3B</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">10,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">11,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">12&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11022r22"></a><span 
+class="cmr-6">22</span></span><span 
+class="cmtt-10">transitionHR</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11023r23"></a><span 
+class="cmr-6">23</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11024r24"></a><span 
+class="cmr-6">24</span></span><span 
+class="cmtt-10">for</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">in</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1:24&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x007B;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11025r25"></a><span 
+class="cmr-6">25</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P0</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transitionOut</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_0</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11026r26"></a><span 
+class="cmr-6">26</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">PB</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transitionBB</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_B</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11027r27"></a><span 
+class="cmr-6">27</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P1</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transition1B</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11028r28"></a><span 
+class="cmr-6">28</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P2</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transition2B</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_2</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11029r29"></a><span 
+class="cmr-6">29</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P3</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transition3B</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_3</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11030r30"></a><span 
+class="cmr-6">30</span></span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P4</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transitionHR</span><span 
+class="cmtt-10">&#x005B;</span><span 
+class="cmtt-10">i</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_4</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11031r31"></a><span 
+class="cmr-6">31</span></span><span 
+class="cmtt-10">&#x007D;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11032r32"></a><span 
+class="cmr-6">32</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11033r33"></a><span 
+class="cmr-6">33</span></span><span 
+class="cmtt-10">P</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P0</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">+</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">PB</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">+</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P1</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">+</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P2</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">+</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P3</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">+</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P4</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11034r34"></a><span 
+class="cmr-6">34</span></span><span 
+class="cmtt-10">P</span><span 
+class="cmtt-10">&#x005B;25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11035r35"></a><span 
+class="cmr-6">35</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11036r36"></a><span 
+class="cmr-6">36</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">matrix</span><span 
+class="cmtt-10">&#x0028;0,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">nrow</span><span 
+class="cmtt-10">=25,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">ncol</span><span 
+class="cmtt-10">=5&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11037r37"></a><span 
+class="cmr-6">37</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;22:24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11038r38"></a><span 
+class="cmr-6">38</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;7:18,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2:3&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11039r39"></a><span 
+class="cmr-6">39</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;19:24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2:3&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11040r40"></a><span 
+class="cmr-6">40</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;4:12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11041r41"></a><span 
+class="cmr-6">41</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;13:21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11042r42"></a><span 
+class="cmr-6">42</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;22:24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11043r43"></a><span 
+class="cmr-6">43</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;1:3,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11044r44"></a><span 
+class="cmr-6">44</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;4:12,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">2</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11045r45"></a><span 
+class="cmr-6">45</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;13:21,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">3</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11046r46"></a><span 
+class="cmr-6">46</span></span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x005B;22:24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">5&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">4</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11047r47"></a><span 
+class="cmr-6">47</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11048r48"></a><span 
+class="cmr-6">48</span></span><span 
+class="cmtt-10">trout</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">pi_B</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_1</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_2</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_3</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">pi_4</span><span 
+class="cmtt-10">&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11049r49"></a><span 
+class="cmr-6">49</span></span><span 
+class="cmtt-10">runsTrout</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">M</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">%*%</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">trout</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11050r50"></a><span 
+class="cmr-6">50</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11051r51"></a><span 
+class="cmr-6">51</span></span><span 
+class="cmtt-10">Q</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P</span><span 
+class="cmtt-10">&#x005B;1:24,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">1:24&#x005D;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11052r52"></a><span 
+class="cmr-6">52</span></span><span 
+class="cmtt-10">cat</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">solve</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">diag</span><span 
+class="cmtt-10">&#x0028;24&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">Q</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">runsTrout</span><span 
+class="cmtt-10">&#x005B;1:24&#x005D;&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11053r53"></a><span 
+class="cmr-6">53</span></span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11054r54"></a><span 
+class="cmr-6">54</span></span><span 
+class="cmtt-10">library</span><span 
+class="cmtt-10">&#x0028;&#x0022;</span><span 
+class="cmtt-10">markovchain</span><span 
+class="cmtt-10">&#x0022;&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11055r55"></a><span 
+class="cmr-6">55</span></span><span 
+class="cmtt-10">nStates</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">25</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11056r56"></a><span 
+class="cmr-6">56</span></span><span 
+class="cmtt-10">baseballStates</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">as</span><span 
+class="cmtt-10">.</span><span 
+class="cmtt-10">character</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">c</span><span 
+class="cmtt-10">&#x0028;1:</span><span 
+class="cmtt-10">nStates</span><span 
+class="cmtt-10">&#x0029;</span><span 
+class="cmtt-10">&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11057r57"></a><span 
+class="cmr-6">57</span></span><span 
+class="cmtt-10">mcBaseball</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x003C;-</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">new</span><span 
+class="cmtt-10">&#x0028;&#x0022;</span><span 
+class="cmtt-10">markovchain</span><span 
+class="cmtt-10">&#x0022;,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">states</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">baseballStates</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">byrow</span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10">TRUE</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">transitionMatrix</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">=</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">P</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">name</span><span 
+class="cmtt-10">=&#x0022;</span><span 
+class="cmtt-10">mcTrout</span><span 
+class="cmtt-10">&#x0022;&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-11058r58"></a><span 
+class="cmr-6">58</span></span><span 
+class="cmtt-10">cat</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">expectedRewards</span><span 
+class="cmtt-10">&#x0028;</span><span 
+class="cmtt-10">mcBaseball</span><span 
+class="cmtt-10">,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">30,</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">runsTrout</span><span 
+class="cmtt-10">&#x0029;</span><span 
+class="cmtt-10">&#x00A0;</span><span 
+class="cmtt-10">&#x0029;</span>
+<br />
+    <div class="caption" 
+><span class="id">3cAp1x1-1100059:
+    </span><span  
+class="content"></span></div><!--tex4ht:label?: x1-11000 -->
+   </div>
+<!--l. 677--><p class="indent" >   _______________________________________________________________________________________________
+</p><!--l. 679--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/solveproblems.png" alt="Problems to Work"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-12000"></a>Problems to Work for Understanding</h3>
+<a 
+ id="x1-12001r1"></a>
+   1:  Steven Strasburg of the Washington Nationals was the 2019 World Series
+MVP. Discuss why this model may not useful for assessing Strasburg as a baseball
+player.
+<a 
+ id="x1-12013r2"></a>
+   2:  Use this model to calculate the Markov runs for Ted Williams and Babe
+Ruth. Does this settle the debate about who is the greatest hitter in baseball
+                                                                          
+
+                                                                          
+history?
+<a 
+ id="x1-12051r3"></a>
+   3:  Consider a player K who each time at bat either hits a home run with probability
+<!--l. 3--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>q</mi></mrow></math> or strikes out
+with probability <!--l. 3--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>1</mn> <mo 
+class="MathClass-bin">&#x2212;</mo> <mi 
+>q</mi></mrow></math>.
+Write out the non-zero probability transitions in the matrix
+<!--l. 4--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>K</mi></mrow></msub 
+></mrow></math>.
+<!--l. 765--><p class="noindent" >__________________________________________________________________________
+</p><!--l. 767--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/books.png" alt="Books"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-13000"></a>Reading Suggestion:</h3>
+<!--l. 1--><p class="noindent" >
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-14000"></a>References</h3>
+<!--l. 1--><p class="noindent" >
+   </p><div class="thebibliography">
+   <p class="bibitem" ><span class="biblabel">
+ &#x005B;1&#x005D;<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xbukiet97"></a>Bruce  Bukiet,  Elliott&#x00A0;Rusty  Harold,  and  Jos&#x00E9;&#x00A0;Luis  Palacios.   A
+   markov chain approach to baseball.  <span 
+class="cmti-12">Operations Research</span>, 45&#x0028;1&#x0029;:14&#x2013;23,
+   1997.
+   </p>
+   <p class="bibitem" ><span class="biblabel">
+ &#x005B;2&#x005D;<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xcover77"></a>Thomas&#x00A0;M. Cover and Carroll&#x00A0;W. Keilers.  An o&#xFB00;ensive earned-run
+   average for baseball. <span 
+class="cmti-12">Operations Research</span>, 25&#x0028;5&#x0029;:729&#x2013;740, Sep.-Oct. 1977.
+   </p>
+   <p class="bibitem" ><span class="biblabel">
+ &#x005B;3&#x005D;<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xdangelo10"></a>John&#x00A0;P.  D&#x2019;Angelo.    Baseball  and  markov  chains:  Power  hitting
+   and  power  series.    <span 
+class="cmti-12">Notices  of  the  American  Mathematical  Society</span>,
+   57&#x0028;4&#x0029;:490&#x2013;495, April 2010.
+                                                                          
+
+                                                                          
+   </p>
+   <p class="bibitem" ><span class="biblabel">
+ &#x005B;4&#x005D;<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xosbourne20"></a>Jason&#x00A0;A.  Osbourne,  Meoldy  Wen,  and  Neil  Dey.   Mlbdecider:  A
+   shiny app for baseball.  <span 
+class="cmti-12">Notices of the American Mathematical Society</span>,
+   67&#x0028;9&#x0029;:1389&#x2013;1395, October 2020.
+   </p>
+   <p class="bibitem" ><span class="biblabel">
+ &#x005B;5&#x005D;<span class="bibsp">&#x00A0;&#x00A0;&#x00A0;</span></span><a 
+ id="Xpankin"></a>Mark&#x00A0;D.  Pankin.    Markov  chain  models:theoretical  background.
+   Accessed December 19, 2019.
+</p>
+   </div>
+<!--l. 778--><p class="noindent" >__________________________________________________________________________
+</p><!--l. 780--><p class="indent" >   <img 
+src="../../../../CommonInformation/Lessons/chainlink.png" alt="Links"  
+ />
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-15000"></a>Outside Readings and Links:</h3>
+<!--l. 783--><p class="noindent" >
+      </p><dl class="enumerate-enumitem"><dt class="enumerate-enumitem">
+   1. </dt><dd 
+class="enumerate-enumitem">
+      </dd><dt class="enumerate-enumitem">
+   2. </dt><dd 
+class="enumerate-enumitem">
+      </dd><dt class="enumerate-enumitem">
+   3. </dt><dd 
+class="enumerate-enumitem">
+      </dd><dt class="enumerate-enumitem">
+   4. </dt><dd 
+class="enumerate-enumitem"></dd></dl>
+<!--l. 789--><p class="noindent" >__________________________________________________________________________
+                                                                          
+
+                                                                          
+</p><!--l. 791--><p class="noindent" >
+</p>
+   <h3 class="likesectionHead"><a 
+ id="x1-16000"></a>Solutions</h3>
+<!--l. 1--><p class="noindent" >1:  In 2019 Strasburg was a pitcher for the Washington Nationals in the National
+League, as he has been since 2010. As a pitcher, his hitting skills and run production
+are not emphasized, it is his pitching that makes him a valuable player. Furthermore,
+as a pitcher, he appears in fewer games with even fewer plate appearances. That
+means he has a smaller base of hitting statistics for creating the matrix
+<!--l. 8--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi></mrow></math> so
+<!--l. 8--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>P</mi></mrow></math> may
+not fully re&#xFB02;ect his hitting skills.
+</p><!--l. 11--><p class="noindent" >2:  The lifetime career statistics for Babe Ruth &#x0028;1914&#x2013;1935&#x0029; and Ted Williams
+&#x0028;1939&#x2013;1942, 1946&#x2013;1960&#x0029; are in Table&#x00A0;<a 
+href="#x1-160013">3<!--tex4ht:ref: tab:baseball:ruthwilliams --></a>. &#x0028;Values derived from <a 
+href="https://www.baseball-reference.com/players/" >Baseball-Reference</a>..&#x0029;
+</p><div class="table">
+                                                                          
+
+                                                                          
+<!--l. 17--><p class="indent" >   <a 
+ id="x1-160013"></a></p><hr class="float" /><div class="float" 
+>
+                                                                          
+
+                                                                          
+<div class="tabular">
+ <table id="TBL-4" class="tabular" 
+cellspacing="0" cellpadding="0"  
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1" /><col 
+id="TBL-4-2" /><col 
+id="TBL-4-3" /><col 
+id="TBL-4-4" /><col 
+id="TBL-4-5" /><col 
+id="TBL-4-6" /><col 
+id="TBL-4-7" /><col 
+id="TBL-4-8" /><col 
+id="TBL-4-9" /><col 
+id="TBL-4-10" /><col 
+id="TBL-4-11" /></colgroup><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="text-align:left; white-space:nowrap;" id="TBL-4-1-1"  
+class="td11">       </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-2"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AB</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-3"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>S</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-4"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>D</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-5"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>T</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-6"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">HR</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-7"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">BB</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-8"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi mathvariant="italic">AVE</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-9"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>S</mi><mi 
+>A</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-10"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>O</mi><mi 
+>B</mi></mrow></math></td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-1-11"  
+class="td11"><!--l. 19--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>O</mi><mi 
+>P</mi><mi 
+>S</mi></mrow></math></td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="text-align:left; white-space:nowrap;" id="TBL-4-2-1"  
+class="td11">Ruth     </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-2"  
+class="td11">                              8399                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-3"  
+class="td11">                              1517                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-4"  
+class="td11">                              506                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-5"  
+class="td11">                              136                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-6"  
+class="td11">                              714                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-7"  
+class="td11">                              2062                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-8"  
+class="td11">                             0.342                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-9"  
+class="td11">                             0.690                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-10"  
+class="td11">                             0.474                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-2-11"  
+class="td11">                             1.164                                              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="text-align:left; white-space:nowrap;" id="TBL-4-3-1"  
+class="td11">Williams</td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-2"  
+class="td11">                              7706                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-3"  
+class="td11">                              1534                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-4"  
+class="td11">                              525                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-5"  
+class="td11">                               71                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-6"  
+class="td11">                              521                                                </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-7"  
+class="td11">                              2021                                               </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-8"  
+class="td11">                             0.344                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-9"  
+class="td11">                             0.634                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-10"  
+class="td11">                             0.482                                              </td><td  style="text-align:center; white-space:nowrap;" id="TBL-4-3-11"  
+class="td11">                             1.116                                              </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="text-align:left; white-space:nowrap;" id="TBL-4-4-1"  
+class="td11">       </td></tr></table>
+</div>
+<br /> <div class="caption" 
+><span class="id">Table&#x00A0;3: </span><span  
+class="content">Statistics for Babe Ruth and Ted Williams.</span></div><!--tex4ht:label?: x1-160013 -->
+                                                                          
+
+                                                                          
+   </div><hr class="endfloat" />
+   </div>
+<!--l. 29--><p class="indent" >   Then
+</p>
+   <div class="math-display"><!--l. 29--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                    <msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>B</mi><mi 
+>R</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>4</mn><mn>1</mn><mn>2</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>2</mn><mn>4</mn><mn>6</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>1</mn><mn>8</mn><mn>1</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>6</mn><mn>0</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>1</mn><mn>6</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>8</mn><mn>5</mn></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow>
+</mrow></math></div>
+<!--l. 29--><p class="nopar" > and
+</p>
+   <div class="math-display"><!--l. 30--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="block" ><mrow 
+>
+                   <msub><mrow 
+><mi 
+>&#x03C0;</mi></mrow><mrow 
+><mi 
+>T</mi><mi 
+>W</mi> </mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>3</mn><mn>9</mn><mn>4</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>2</mn><mn>6</mn><mn>2</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>1</mn><mn>9</mn><mn>9</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>6</mn><mn>8</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>0</mn><mn>9</mn><mo 
+class="MathClass-punc">,</mo> <mn>0</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>6</mn><mn>8</mn></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow><mo 
+class="MathClass-punc">.</mo>
+</mrow></math></div>
+<!--l. 30--><p class="nopar" > Using these probabilities in the script for Markov runs, the value for Babe Ruth is
+<!--l. 32--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>2</mn><mo 
+class="MathClass-punc">.</mo><mn>8</mn><mn>3</mn></mrow></math> and the value for
+Ted Williams is <!--l. 32--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>3</mn><mo 
+class="MathClass-punc">.</mo><mn>0</mn><mn>5</mn></mrow></math>.
+The two values are close but Williams has the slightly greater value.
+</p><!--l. 36--><p class="indent" >   No statistic can resolve the comparison between these two great players.
+Each played in di&#xFB00;erent baseball eras, and each had particular strengths.
+Besides, what is to be the basis for comparison, their lifetime statistics used
+here, or the best career year for each? If the latter, how to choose the
+best career year? Note that Williams lost 3 &#x0028;possibly best&#x0029; years of his
+                                                                          
+
+                                                                          
+career to military service in World War II. It is interesting to compute
+the Markov runs for each, but the statistic won&#x2019;t answer this opinion
+question.
+</p><!--l. 47--><p class="noindent" >3:  In the matrix <!--l. 48--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>K</mi></mrow></msub 
+></mrow></math>,
+all entries are <!--l. 48--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mn>0</mn></mrow></math>
+except for the following: </p>
+      <ul class="itemize1">
+      <li class="itemize">For each <!--l. 52--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi></mrow></math>,
+      <!--l. 52--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn><mo 
+class="MathClass-punc">,</mo><mo 
+class="MathClass-op">&#x2026;</mo><mo 
+class="MathClass-punc">,</mo> <mn>2</mn><mn>5</mn></mrow></math>
+      and <!--l. 52--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>j</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>i</mi><mspace width="0.3em"/><mo 
+class="MathClass-op">mod</mo><mspace width="0.3em"/> <mn>3</mn></mrow></math>,
+      <!--l. 53--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>K</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow><mrow 
+><mi 
+>i</mi><mi 
+>j</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mi 
+>q</mi></mrow></math>,
+      </li>
+      <li class="itemize">For each <!--l. 55--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi></mrow></math>,
+      <!--l. 55--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn><mo 
+class="MathClass-punc">,</mo><mo 
+class="MathClass-op">&#x2026;</mo><mo 
+class="MathClass-punc">,</mo> <mn>2</mn><mn>5</mn></mrow></math>
+      with <!--l. 55--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi><mo 
+class="MathClass-rel">&#x2260;</mo><mn>0</mn><mspace width="0.3em"/><mo 
+class="MathClass-op"> mod</mo><mspace width="0.3em"/> <mn>3</mn></mrow></math>,
+      and <!--l. 56--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>j</mi> <mo 
+class="MathClass-rel">=</mo> <mi 
+>i</mi> <mo 
+class="MathClass-bin">+</mo> <mn>1</mn></mrow></math>
+      <!--l. 56--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>K</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow><mrow 
+><mi 
+>i</mi><mi 
+>j</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn> <mo 
+class="MathClass-bin">&#x2212;</mo> <mi 
+>q</mi></mrow></math>
+      </li>
+      <li class="itemize">For each <!--l. 58--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi></mrow></math>,
+      <!--l. 58--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn><mo 
+class="MathClass-punc">,</mo><mo 
+class="MathClass-op">&#x2026;</mo><mo 
+class="MathClass-punc">,</mo> <mn>2</mn><mn>5</mn></mrow></math>
+      with <!--l. 58--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>i</mi> <mo 
+class="MathClass-rel">=</mo> <mn>0</mn><mspace width="0.3em"/><mo 
+class="MathClass-op"> mod</mo><mspace width="0.3em"/> <mn>3</mn></mrow></math>
+      and <!--l. 59--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><mi 
+>j</mi> <mo 
+class="MathClass-rel">=</mo> <mn>2</mn><mn>5</mn></mrow></math>
+      <!--l. 59--><math 
+ xmlns="http://www.w3.org/1998/Math/MathML"  
+display="inline" ><mrow 
+><msub><mrow 
+><mrow ><mo 
+class="MathClass-open">&#x0028;</mo><mrow><msub><mrow 
+><mi 
+>M</mi></mrow><mrow 
+><mi 
+>K</mi></mrow></msub 
+></mrow><mo 
+class="MathClass-close">&#x0029;</mo></mrow></mrow><mrow 
+><mi 
+>i</mi><mi 
+>j</mi></mrow></msub 
+> <mo 
+class="MathClass-rel">=</mo> <mn>1</mn> <mo 
+class="MathClass-bin">&#x2212;</mo> <mi 
+>q</mi></mrow></math>.</li></ul>
+<!--l. 794--><p class="noindent" >__________________________________________________________________________
+</p><!--l. 3--><p class="indent" >   <span 
+class="cmr-10x-x-109">I check all the information on each page for correctness and typographical errors.</span>
+<span 
+class="cmr-10x-x-109">Nevertheless, some errors may occur and I would be grateful if you would alert me to</span>
+<span 
+class="cmr-10x-x-109">such errors. I make every reasonable e&#xFB00;ort to present current and accurate information</span>
+<span 
+class="cmr-10x-x-109">for public use, however I do not guarantee the accuracy or timeliness of information on</span>
+<span 
+class="cmr-10x-x-109">this website. Your use of the information from this website is strictly voluntary and at</span>
+<span 
+class="cmr-10x-x-109">your risk.</span>
+</p><!--l. 12--><p class="indent" >   <span 
+class="cmr-10x-x-109">I have checked the links to external sites for usefulness. Links to external websites</span>
+<span 
+class="cmr-10x-x-109">are provided as a convenience. I do not endorse, control, monitor, or guarantee the</span>
+<span 
+class="cmr-10x-x-109">information contained in any external website. I don&#x2019;t guarantee that the links are</span>
+<span 
+class="cmr-10x-x-109">active at all times. Use the links here with the same caution as you would all</span>
+<span 
+class="cmr-10x-x-109">information on the Internet. This website re&#xFB02;ects the thoughts, interests and opinions of</span>
+                                                                          
+
+                                                                          
+<span 
+class="cmr-10x-x-109">its author. They do not explicitly represent o&#xFB03;cial positions or policies of my</span>
+<span 
+class="cmr-10x-x-109">employer.</span>
+</p><!--l. 22--><p class="indent" >   <span 
+class="cmr-10x-x-109">Information on this website is subject to change without notice.</span>
+</p><!--l. 2--><p class="indent" >   Steve Dunbar&#x2019;s Home Page, <span class="obeylines-h"><span class="verb"><span 
+class="cmtt-12">http://www.math.unl.edu/~sdunbar1</span></span></span>
+</p><!--l. 4--><p class="indent" >   Email to Steve Dunbar, <span class="obeylines-h"><span class="verb"><span 
+class="cmtt-12">sdunbar1</span><span 
+class="cmtt-12">&#x00A0;at</span><span 
+class="cmtt-12">&#x00A0;unl</span><span 
+class="cmtt-12">&#x00A0;dot</span><span 
+class="cmtt-12">&#x00A0;edu</span></span></span>
+</p><!--l. 798--><p class="indent" >   Last modi&#xFB01;ed: Processed from <span class="LATEX">L<span class="A">A</span><span class="TEX">T<span 
+class="E">E</span>X</span></span>&#x00A0;source on November 12, 2020
+</p>
+    
+</body> 
+</html>
+                                                                          
+
+
