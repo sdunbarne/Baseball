@@ -1,0 +1,915 @@
+%%% -*-LaTeX-*-
+%%% baseball.tex.orig
+%%% Prettyprinted by texpretty lex version 0.02 [21-May-2001]
+%%% on Wed May  4 05:50:37 2022
+%%% for Steve Dunbar (sdunbar@family-desktop)
+
+\documentclass[12pt]{article}
+
+\input{../../../../etc/macros}
+%% \input{../../../../etc/mzlatex_macros}
+\input{../../../../etc/pdf_macros}
+
+\bibliographystyle{plain}
+
+\begin{document}
+
+\myheader \mytitle
+
+\hr
+
+\sectiontitle{A Markov Chain Model of Baseball}
+
+\hr
+
+\usefirefox
+
+\hr
+
+% \visual{Study Tip}{../../../../CommonInformation/Lessons/studytip.png}
+% \section*{Study Tip}
+
+% \hr
+
+\visual{Rating}{../../../../CommonInformation/Lessons/rating.png}
+\section*{Rating} %one of
+% Everyone: contains no mathematics.
+% Student: contains scenes of mild algebra or calculus that may require guidance.
+Mathematically Mature:  may contain mathematics beyond calculus with
+proofs.  % Mathematicians Only: prolonged scenes of intense rigor.
+
+\hr
+
+\visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
+\section*{Section Starter Question}
+
+What is the baseball statistic known as \( \mathit{OPS} \)?  How is this
+statistic used?
+
+\hr
+
+\visual{Key Concepts}{../../../../CommonInformation/Lessons/keyconcepts.png}
+\section*{Key Concepts}
+
+\begin{enumerate}
+    \item
+        The goal is to model a half-inning of a baseball game as a
+        Markov chain to find the expected number of runs a player will
+        score as a means of evaluating and comparing players.
+    \item
+        The expected number of runs a player will score uses the
+        standard partition of the transition probability matrix over the
+        transient and absorbing states.
+    \item
+        A convenient way to build the transition probability matrix is
+        to compose it from \( 6 \) simpler matrices with entries either \(
+        0 \) or \( \rho_x \), corresponding to the \( 6 \) probabilities
+        in the hitter's distribution.
+\end{enumerate}
+
+\hr
+
+\visual{Vocabulary}{../../../../CommonInformation/Lessons/vocabulary.png}
+\section*{Vocabulary}
+\begin{enumerate}
+    \item
+        A new baseball statistic is how many runs will a team score if
+        it uses a player for every plate appearance, called \defn{Markov
+        runs}.
+    \item
+        The \defn{On-base plus slugging} statistic or OPS is the sum of
+        a player's slugging average and his on-base average.
+\end{enumerate}
+
+\hr
+
+\section*{Notation}
+\begin{enumerate}
+    \item
+        \( p_{i,j} \) -- the probability of moving from one state \( i \)
+        to state \( j \)
+    \item
+        \( \mathit{AB} \) denotes at-bats, \( S \) denotes singles, \( D
+        \) denotes doubles, \( T \) denotes triples, \( \mathit{HR} \)
+        denotes home runs, \( \mathit{BB} \) denotes walks plus hit
+        batters, \( \mathit{AVE} \) denotes batting average \( (S + D +
+        T + \mathit{HR})/\mathit{AB} \), \( \mathit{SA} \) denotes
+        slugging average \( (1 \cdot S + 2 \cdot D + 3 \cdot T + 4 \cdot
+        \mathit{HR})/\mathit{AB} \), a measure of the batting
+        productivity of a player, \( \mathit{OB} \) denotes on-base
+        average \( (\mathit{BB} + S + D + T + \mathit{HR})/(\mathit{AB}+\mathit
+        {BB}) \), and \( \mathit{OPS} = \mathit{OB} + \mathit{SA} \)
+        measuring the ability of a player both to get on base and to hit
+        for power
+    \item
+        \( (\rho_O, \rho_B, \rho_1, \rho_2, \rho_3 \rho_4) \) --
+        probability distribution where \( \rho_O \) is the probability
+        of an out, \( \rho_B \) is the probability of a base on balls,
+        and \( \rho_i \) is the probability of an \( i \)-base hit.
+    \item
+        \( R \) -- the \( 25 \times 1 \) column vector containing the
+        expected or average runs scored after each state on one play
+        only. The elements of \( R \) are \( R_{1} \), \( R_{2} \),
+        \dots, \( R_{25} \)
+    \item
+        \( E \) -- the expected runs in the rest of the inning after any
+        runners and outs state
+    \item
+        \( Q \), \( Q' \) -- submatrices of the transition probability
+        matrix corresponding to transitions among the transients and the
+        transients to the stationary state.  \( E' \) corresponding
+        expected runs subvector.
+    \item
+        \( I_{24} \) -- \( 24 \times 24 \) identity matrix.
+\end{enumerate}
+
+\visual{Mathematical Ideas}{../../../../CommonInformation/Lessons/mathematicalideas.png}
+\section*{Mathematical Ideas}
+\subsection*{}
+
+%% Introduction and main question
+This section assumes familiarity with the rules and terminology of
+American baseball%
+\index{baseball}
+and some of the statistics associated with baseball players.  The goal
+is to model a half-inning of a baseball game as a Markov chain to find
+the expected number of runs a player will score as a means of evaluating
+and comparing players.
+
+\subsection*{States of the Model} The Markov chain will be the sequence
+of situations arising in a half-inning of a baseball game.  In this
+Markov chain model of baseball each step will be a plate appearance.  A
+plate appearance is similar to an at-bat, but includes walks, hit
+batters, and sacrifices that recorded baseball does not regard as an
+official at-bat.  In this baseball model, the states are the runners on
+base together with a count of the present outs.  Each plate appearance
+has eight possibilities for the runners on base:
+\begin{itemize}
+    \item
+        the bases can be empty;
+    \item
+        there can be one runner on first, second, or third base;
+    \item
+        there can be two runners on base in three different ways; or
+    \item
+        the bases can be loaded.
+\end{itemize}
+The number of outs can be \( 0 \), \( 1 \), or \( 2 \) to make
+twenty-four states.  All situations with three outs are the same, and
+this situation is the final \( 25 \)th absorbing state.  Once the game
+reaches this state, the half-inning ends and the Markov chain is
+stopped.  This simplified model takes no account of how many players are
+on base or where players are located when the third out is made.  Table~%
+\ref{tab:baseball:states} below gives the labeling of the \( 24 \)
+possible runners and outs states.  Figure~%
+\ref{fig:baseball:states} is a diagram of the states along with a few
+sample transitions.  The model tracks runs scored separately, runs are
+not part of the states.  Osbourne \emph{et al.}
+\cite{osbourne20}, use the same set of states with more descriptive
+state labels but ordering them left to right in a row, then row by row.
+\begin{table}
+    \centering
+    \begin{tabular}{cccccccccc}
+        \toprule Runners: & None & 1st & 2nd & 3rd & 1\&2 & 1\&3 & 2\&3 & 1,2,\&3 \\ 
+        \midrule Outs     &      &     &     &     &      &      &      &         \\ 
+        0                 & 1    & 4   & 7   & 10  & 13   & 16   & 19   & 22      \\ 
+        1                 & 2    & 5   & 8   & 11  & 14   & 17   & 20   & 23      \\ 
+        2                 & 3    & 6   & 9   & 12  & 15   & 18   & 21   & 24      \\ 
+        3                 & 25   &     &     &     &      &      &      &         \\ 
+        \bottomrule
+    \end{tabular}
+    \caption{States of the Markov chain model of a half inning of
+    baseball}%
+    \label{tab:baseball:states}
+\end{table}
+
+\begin{figure}
+    \centering
+\begin{asy}
+settings.outformat = "pdf";
+
+size(5inches);
+
+real myfontsize = 12;
+real mylineskip = 1.2*myfontsize;
+pen mypen = fontsize(myfontsize, mylineskip);
+defaultpen(mypen);
+
+real R = 1/5;
+path diamond = rotate(45) * unitsquare;
+path firstbase = shift((sqrt(2)/2, sqrt(2)/2)) * rotate(45) * scale(R) * box((-1/2,-1/2),(1/2,1/2));
+path secbase = shift((0, sqrt(2))) * rotate(45) * scale(R) * box((-1/2,-1/2),(1/2,1/2));
+path thirdbase = shift((-sqrt(2)/2, sqrt(2)/2)) * rotate(45) * scale(R) * box((-1/2,-1/2),(1/2,1/2));
+path home = scale(R) * ((-1/2,-1/4)--(-1/2,3/4)--(1/2,3/4)--(1/2,-1/4)--(0,-1/2)--cycle);
+path field[] = diamond ^^ firstbase ^^ secbase ^^ thirdbase ^^ home;
+
+int state = 1;
+for (int i=0; i<=7; ++i) {
+  for (int j=0; j<=2; ++j) {
+    label(scale(1.0) * format("%i", state), (2*i,-2*j));
+    ++state;
+  }
+}
+
+real fieldscale = 0.75;
+
+// no runners
+for (int j=0; j<=2; ++j) {
+  draw( shift((0,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((0, -2*j-1/2)) * scale(fieldscale) * firstbase, white);
+  filldraw( shift((0, -2*j-1/2)) * scale(fieldscale) * secbase, white);
+  filldraw( shift((0, -2*j-1/2)) * scale(fieldscale) * thirdbase, white);
+  filldraw( shift((0, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runner on first
+for (int j=0; j<=2; ++j) {
+  draw( shift((2,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((2, -2*j-1/2)) * scale(fieldscale) * firstbase, red);
+  filldraw( shift((2, -2*j-1/2)) * scale(fieldscale) * secbase, white);
+  filldraw( shift((2, -2*j-1/2)) * scale(fieldscale) * thirdbase, white);
+  filldraw( shift((2, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runner on second
+for (int j=0; j<=2; ++j) {
+  draw( shift((4,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((4, -2*j-1/2)) * scale(fieldscale) * firstbase, white);
+  filldraw( shift((4, -2*j-1/2)) * scale(fieldscale) * secbase, red);
+  filldraw( shift((4, -2*j-1/2)) * scale(fieldscale) * thirdbase, white);
+  filldraw( shift((4, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runner on third
+for (int j=0; j<=2; ++j) {
+  draw( shift((6,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((6, -2*j-1/2)) * scale(fieldscale) * firstbase, white);
+  filldraw( shift((6, -2*j-1/2)) * scale(fieldscale) * secbase, white);
+  filldraw( shift((6, -2*j-1/2)) * scale(fieldscale) * thirdbase, red);
+  filldraw( shift((6, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runners on first and second
+for (int j=0; j<=2; ++j) {
+  draw( shift((8,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((8, -2*j-1/2)) * scale(fieldscale) * firstbase, red);
+  filldraw( shift((8, -2*j-1/2)) * scale(fieldscale) * secbase, red);
+  filldraw( shift((8, -2*j-1/2)) * scale(fieldscale) * thirdbase, white);
+  filldraw( shift((8, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runners on first and third
+for (int j=0; j<=2; ++j) {
+  draw( shift((10,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((10, -2*j-1/2)) * scale(fieldscale) * firstbase, red);
+  filldraw( shift((10, -2*j-1/2)) * scale(fieldscale) * secbase, white);
+  filldraw( shift((10, -2*j-1/2)) * scale(fieldscale) * thirdbase, red);
+  filldraw( shift((10, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// runner on second and third
+for (int j=0; j<=2; ++j) {
+  draw( shift((12,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((12, -2*j-1/2)) * scale(fieldscale) * firstbase, white);
+  filldraw( shift((12, -2*j-1/2)) * scale(fieldscale) * secbase, red);
+  filldraw( shift((12, -2*j-1/2)) * scale(fieldscale) * secbase, red);
+  filldraw( shift((12, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// bases loaded
+for (int j=0; j<=2; ++j) {
+  draw( shift((14,  -2*j-1/2)) * scale(fieldscale) * field );
+  filldraw( shift((14, -2*j-1/2)) * scale(fieldscale) * firstbase, red);
+  filldraw( shift((14, -2*j-1/2)) * scale(fieldscale) * secbase, red);
+  filldraw( shift((14, -2*j-1/2)) * scale(fieldscale) * thirdbase, red);
+  filldraw( shift((14, -2*j-1/2)) * scale(fieldscale) * home, white);
+}
+
+// Three outs
+label(scale(1.0) * "$25$", (0,-6));
+filldraw( shift((0, -2*3-1/2)) * scale(fieldscale) * firstbase, white);
+filldraw( shift((0, -2*3-1/2)) * scale(fieldscale) * secbase, white);
+filldraw( shift((0, -2*3-1/2)) * scale(fieldscale) * thirdbase, white);
+filldraw( shift((0, -2*3-1/2)) * scale(fieldscale) * home, white);
+draw( shift((0,  -2*3-1/2)) * scale(fieldscale) * field );
+
+
+real eps = 1/10;
+draw( Label("$\rho_O$"), (0, -1/2)--(0, -3/2+eps), Arrow);
+draw( Label("$\rho_4$", align=N), (-1/4, 1/4){NW}..(0,1)..(1/4,1/4){SW}, Arrow);
+draw( Label("$\rho_1 + \rho_B$", align=3.5S+0.5E), (1/2+eps, 0)--(3/2-eps, 0), Arrow);
+draw( Label("$\rho_2$", align=S, position=Relative(0.70)), (1/2+eps, 0)..(2,1)..(4, 0.7), Arrow);
+draw( Label("$\rho_3$", align=N), (1/2-eps, eps)..(2, 1.5)..(11/2-eps, 0), Arrow);
+
+label("Outs", (-2,1));
+label("$0$", (-2,  0));
+label("$1$", (-2, -2));
+label("$2$", (-2, -4));
+label("$3$", (-2, -6));
+label("Runners on base", (7, 2));
+\end{asy}
+    \caption{The state diagram for the Markov chain model of a
+    half-inning of baseball, with only transitions from state 1
+    indicated as an example.}%
+    \label{fig:baseball:states}
+\end{figure}
+
+\subsection*{Transition Probability Matrix} Denote the probability of
+moving from one state \( i \) to state \( j \) by \( p_{i,j} \).  Many
+transitions are impossible, such as a transition to a state with fewer
+outs, and hence have probabilities equal to zero. Using the numbering
+above, \( p_{1,4} \) is the probability of going from no outs and none
+on to a runner on first with no outs, which in turn is equal to the
+probability of a single plus the probability of a walk.  In real
+baseball, there are other possibilities for this transition such as a
+wild pitch, but this simplified model ignores them. In certain
+situations different actions by the batter produce the same effect.  As
+can be seen in Figure~%
+\ref{fig:baseball:states}, if no one is on base, then a single and a
+walk have the same effect.  Sum the probability of each event to give
+the state transition probability.
+
+For this model imagine that the player bats with plate outcomes
+distributed randomly according to his statistical profile.  Plate
+appearances are independent.  In other words, a player's chance of
+getting a specific kind of hit or making a specific kind of out is
+independent of how many runners are on and the number of outs.  Based on
+this profile, compute the transition probabilities for each pair of
+states, obtaining the transition matrix.  The transition probabilities
+could come from player statistics from the previous year, the current
+year, or the career, but must use the same profile each time.  The
+transition probability matrix \( P \), whose entries are \( p_{i,j} \)
+governs the evolution of the half inning.  By the properties of matrix
+multiplication, \( P^2 \) is the transition matrix for sequences of two
+plays or batters, \( P^3 \) is the transition matrix for sequences of
+three batters, and so on, for a string of identical batters.  This
+assumption is useful for computing \emph{average} performance which is
+the goal here, but not for specific game situations.
+
+\subsection*{Assumptions of the Model} Encoding the half inning of the
+game in the transition matrix like this requires simplifying
+assumptions.
+\begin{enumerate}
+    \item
+        The Markov property assumption means that this model does not
+        take into account how it arrived at a particular situation.  For
+        example, if there is a runner on first and no outs, the Markov
+        chain model is not concerned about whether there was a walk or a
+        single.
+    \item
+        More specifically, the Markov property assumption deliberately
+        eliminates the possibility of a \emph{clutch hitter}.  Such a
+        player allegedly hits better when the situation matters more,
+        but numerical studies indicate that the concept is an illusion.
+    \item
+        A related question is whether players get ``hot'' or ``cold'',
+        the model ignores this possibility.
+    \item
+        This model ignores situations such as stolen bases or pick-offs
+        that could occur during the plate appearance, changing the state
+        without action from the player in his plate appearance.
+    \item
+        The model ignores double plays, sacrifice bunts, and sacrifice
+        flies.
+    \item
+        The model ignores runs scored while incurring the third out.
+    \item
+        An important simplifying assumption is that the matrix is time
+        independent, and each plate appearance is an independent event.
+        In real baseball, as pitchers and batters face each other
+        multiple times, each adjusts to the other, changing the
+        probabilities.  Fatigue may also be a factor as a game
+        progresses.
+    \item
+        Another related assumption is that the batter's outcomes do not
+        depend on the pitcher and what the pitcher does is not dependent
+        on the hitter.  The probabilities remain constant, regardless of
+        the current match-up and previous encounters between pitcher and
+        hitter.
+    \item
+        Already mentioned above is the assumption that a single advances
+        a runner by two bases.  For example, in states \( 4 \), \( 5 \),
+        or \( 6 \) with runner on first, a single by the hitter moves
+        the base runner to third base, leaving the chain in states \( 16
+        \), \( 17 \), or \( 18 \) respectively.  Also, assume that a
+        double advances each runner two bases, so that in states \( 4 \),
+        \( 5 \), or \( 6 \) with runner on first, a double by the hitter
+        moves the base runner to third base, leaving the chain in states
+        \( 19 \), \( 20 \), or \( 21 \).  In contrast, in~%
+        \cite{cover77} Cover and Keilers explicitly make the assumption
+        that ``All singles and doubles are assumed to be long.  That is,
+        a single advances a baserunner two bases, and a double scores a
+        runner from first base.'' On the other hand, Pankin~%
+        \cite{pankin} is not explicit about this assumption, but the
+        sample calculations of \( R \) imply that more detailed base
+        running plays have non-zero probability.  For instance, Pankin
+        implies the possibility that bases loaded with one out (state \(
+        23 \)) can change to state \( 5 \) or \( 8 \) meaning that a
+        runner on first, as well as the two runners on second and third,
+        can score on a single or a double.  Likewise Pankin implies that
+        a change from state \( 23 \) to \( 23 \) is possible which would
+        be a single allowing one run from third, advancing the runners
+        on first and second one base.  As another example, Osbourne
+        \emph{et al.}
+        \cite{osbourne20} show how to estimate the probabilities that
+        with no outs and a baserunner on first, after a single the
+        baserunner advances to second or third, or even scores all the
+        way from first. The simpler Markov chain model here does not
+        assume these additional baserunning and scoring refinements.
+    \item
+        Bukiet \emph{et al.}
+        \cite{bukiet97} present an algorithm to carry Markov
+        calculations for one inning forward across a full game, keeping
+        track of the probability distribution of runs scored, instead of
+        just a half-inning considered here.
+\end{enumerate}
+Each assumption can be relaxed at the cost of more states and a larger
+transition probability matrix, or using more detailed player statistics
+or both.  For example, Osbourne \emph{et al.}
+\cite{osbourne20} show how to estimate the probability of a sacrifice
+fly or grounding into a double play.  However they specifically neglect
+events such as a four-base error in transition \( P_{1,1} \), or
+reaching base by error, or by hit-by-pitch, also ignored here.  The
+intent here is to show how to model baseball as a relatively simple
+Markov chain, in the process creating a new player evaluation statistic.
+
+\subsection*{Player Statistics} A particular batter H determines a
+twenty-five by twenty-five matrix \( M_{H} \) from his statistical
+profile.  For convenience, write the player's profile as follows,
+deviating slightly from the standard listing.  Here \( \mathit{AB} \)
+denotes at-bats, \( S \) denotes singles, \( D \) denotes doubles, \( T \)
+denotes triples, \( \mathit{HR} \) denotes home runs, \( \mathit{BB} \)
+denotes walks plus hit batters, \( \mathit{AVE} \) denotes batting
+average \( (S + D + T + \mathit{HR})/\mathit{AB} \), \( \mathit{SA} \)
+denotes slugging average \( (1 \cdot S + 2 \cdot D + 3 \cdot T + 4 \cdot
+\mathit{HR})/\mathit{AB} \), a measure of the batting productivity of a
+player, \( \mathit{OB} \) denotes on-base average \( (\mathit{BB} + S +
+D + T + \mathit{HR})/(\mathit{AB}+\mathit{BB}) \), and \( \mathit{OPS} =
+\mathit{OB} + \mathit{SA} \) measuring the ability of a player both to
+get on base and to hit for power, two important offensive skills.  Note
+that the last four elements depend on the first six, and hence are not
+needed.  For this model, the number of plate appearances is \( \mathit{AB}
++ \mathit{BB} \), ignoring sacrifice flies as in the official
+score-keeping.  In this simplified scenario, all outs are equivalent,
+there is no practical difference between a strikeout and a pop-out.  As
+a result, values of \( \mathit{OB} \) and \( \mathit{OPS} \) here differ
+slightly from the official records.  These statistics give the complete
+profile of H for the model.  In other words, the player statistics
+determine the probabilities that H makes each kind of hit or out, draws
+a walk, gets hit by a pitch, and so on.
+
+%% Example profiles
+For example, Table~%
+\ref{tab:baseball:playerstats} gives a fictional line for a hypothetical star
+player X. Table~%
+\ref{tab:baseball:playerstats} also includes 2019 season profiles for
+Mike Trout (Los Angeles Angels, American League MVP for 2019) and Cody
+Bellinger (Los Angeles Dodgers, National League MVP for 2019).
+\begin{table}
+    \centering
+    \begin{tabular}{lcccccccccc}
+        \toprule          & \(\mathit{AB}\) & \(S\) & \(D\) & \(T\) & \(\mathit{HR}\) & \(\mathit{BB}\) & \(\mathit{AVE}\) & \(SA\)  & \(OB\) & \(OPS\) \\ 
+        \midrule X        & 500             & 100   & 25    & 5     & 30              & 100             & .320             & .570    & .433   & 1.003   \\ 
+        MT                & 470             & 63    & 27    & 2     & 45              & 110             & ,291             & .438    & .645   & 1.083   \\ 
+        CB                & 558             & 86    & 34    & 3     & 47              & 95              & .305             & .629    & .406   & 1.035   \\ 
+        \bottomrule
+    \end{tabular}
+    \caption{Statistics for representative players.}%
+    \label{tab:baseball:playerstats}
+\end{table}
+Player X has \( 500 \) at-bats but \( 600 \) plate appearances.  In a
+given plate appearance player X has a \( \frac{1}{6} \) chance to hit a
+single, a \( \frac{1}{6} \) chance to reach first base by a walk or hit
+batter, a \( \frac{1}{120} \) chance to hit a triple, and so on.  In
+this way, from the \( 6 \) basic player statistics, compute a
+probability distribution \( (\rho_O, \rho_B, \rho_1, \rho_2, \rho_3 \rho_4)
+\), where \( \rho_O \) is the probability of an out, \( \rho_B \) is the
+probability of a base on balls, and \( \rho_i \) is the probability of
+an \( i \)-base hit.
+
+\subsection*{Constructing the Transition Probability Matrix} A state can
+change in several ways, for instance state \( 16 \) with runners on
+first and third with no outs can change into
+\begin{itemize}
+    \item
+        states \( 17 \) with an out,
+    \item
+        \( 22 \) with a single advancing the runner on first,
+    \item
+        \( 16 \) back to itself while scoring a run with a single,
+    \item
+        \( 19 \) with a double scoring both base runners,
+    \item
+        \( 10 \) with a triple, or
+    \item
+        \( 1 \) with a home run.
+\end{itemize}
+A convenient way to build the transition probability matrix is to
+compose it from \( 6 \) simpler matrices with entries either \( 0 \) or \(
+\rho_x \), corresponding to the \( 6 \) probabilities in the hitter's
+distribution.  For example, for \( \rho_O \), the probability of an out,
+the number of outs increases by one and the base runners remain the
+same, which makes a regularly shaped transition matrix \( P_0 \), where
+states with an index divisible by \( 3 \) transition to the absorbing
+state \( 25 \) of three outs.  All other states advance by \( 1 \) index
+with probability \( \rho_O \).  Taking \( P_3 \) as another example, a
+triple scores all runners already on base, leaves the hitter on third
+base and the numbers of outs stays the same. Thus in \( P_3 \) each
+state transitions to state \( 10 \), \( 11 \) or \( 12 \) according to
+the existing number of outs.  The other \( 4 \) matrices are similar,
+but the advance of states is slightly more complicated because of the
+assumption that runners on base advance by \( 2 \) bases on a hit.
+Finally, the full probability transition matrix is the sum of the \( 6 \)
+elementary transition matrices:  \( P = P_O + P_B + P_1 + P_2 + P_3 + P_4
+\).  Set \( P_{25, 25} = 1 \) to account for the absorbing end state.
+The transition probability matrices are too large to display here, but
+the scripts below build the matrices given the values for \( (\rho_O,
+\rho_B, \rho_1, \rho_2, \rho_3 \rho_4) \).
+
+%% Markov runs
+Keeping track of runs scored will be an important outcome of the model.
+The new statistic called Markov runs%
+\index{Markov runs}%
+is how many runs a team could score by using this player for every plate
+appearance.  The complete definition follows. Cover and Keilers
+\cite{cover77} call this the \emph{Offensive Earned-Run Average} or OREA
+but that term seems to be no longer used.  This statistic, normalized
+using nine innings, for all players each day of the season is available
+at \link{https://www.usatoday.com/sports/mlb/sagarin/}{USA Today,
+Sagarin ratings} labeled as ``markov RPG'' (Runs Per Game). Given the
+player's statistical profile, the player bats according to the Markov
+chain model until making three outs.  In principle the test is run
+thousands of times, and from it the model determines the average number
+of runs scored per nine innings.  However, simple results from Markov
+chain theory calculate the statistics without needing thousands of
+simulations.
+
+\subsection*{Calculating Markov Runs} Let \( R \) be the \( 25 \times 1 \)
+column vector containing the expected or average runs scored after each
+state on one play only. Denoting the elements of \( R \) by \( R_{1} \),
+\( R_{2} \), \dots, \( R_{25} \) some example calculations are:
+\begin{align*}
+    R_{1}       &= p_{1,1} (\text{ based on a home run}) \\
+    R_{2}       &= p_{2,2} (\text{ based on a home run}) \\
+    R_{6}       &= p_{6,12} + 2p_{6,3} (\text{ based on triple or a home
+    run}) \\
+    R_{17}      &= p_{17,17} + p_{17,20} + 2p_{17,11} + 3p_{17,1} \\
+    R_{23}      &= 2p_{23,17} + 2p_{23,20} + 3p_{23,11} + 4p_{23,2} \\
+    R_{25}      &= 0.
+\end{align*}
+The vector of runs calculated here will be componentwise slightly less
+than the run vector for Cover and Keilers because advances on singles
+and doubles are less than they assume.  Likewise, the vector of runs
+calculated here will be componentwise less than the run vector for
+Pankin because some state transitions he considers are ignored here.
+
+The key output of the Markov chain baseball model is the computation of
+the expected runs in the rest of the inning after any runners and outs
+state.  Let \( E \) be the \( 25 \times 1 \) column vector containing
+these values.  Then,
+\[
+    E = R + P R + P^2 R + P^3 R + \cdots\,.
+\] This equation says that the expected runs after any state is the sum
+of the expected runs after one plate appearance, the expected runs after
+two plate appearances, and so on theoretically forever.  Of course,
+almost surely (in the probability sense!) the half-inning will end
+sometime in the \( 25 \)th absorption state of three outs.  Because the
+vector of runs calculated here is less than the other run vectors, the
+expected run vector, or Markov runs will be slightly less.  Since the \(
+25 \)th state with \( 3 \) outs is the only absorbing state and the
+other \( 24 \) states are transient, the \( 25 \times 25 \) probability
+transition matrix partitions into the block matrix
+\[
+    P =
+    \begin{pmatrix}
+        Q       & Q' \\
+        0       & 1
+    \end{pmatrix}
+\] where \( Q \) is \( 24 \times 24 \), and \( Q' \) is \( 24 \times 1 \).
+(This block matrix has a different ordering than the canonical form used
+in the section on Waiting Times because here it is more natural to order
+the absorbing state as the last state \( 25 \).) Since no runs are
+scored from the \( 25 \)th absorbing state, just consider
+\[
+    E' = R' + Q R' + Q^2 R' + Q^3 R' + \cdots\,
+\] where \( R' \) and \( E' \) are the \( 24 \times 1 \) subvectors of \(
+E \) and \( R \) corresponding to the first 24 entries.  By the standard
+matrix theory, this is equal to
+\[
+    E' = ( I_{24} - Q )^{-1} R'.
+\]
+
+The expected runs vector \( E' \) has useful interpretations.  For
+example, if \( P \) uses statistics for all events for a league, then \(
+E' \) contains the league average expected runs scored in the rest of
+the inning from each runners-and-outs state.  With enough statistics,
+similar values for teams, a team's home and road games, or for an
+individual player can be calculated.  The last case is the per inning
+estimate of run scoring if that player batted all the time.  Also,
+restricting the transitions to those not influenced by strategies such
+as stolen bases or sacrifice bunts allows comparison of expected run
+values with games using those strategies.
+
+Note that \( E'_1 \) is the expected runs after the no runners, no out
+state in which all innings begin.  Thus \defn{Markov runs per game} \(
+9E'_1 \) is the expected number of runs per \( 9 \) half-innings, or per
+game. This computation is especially interesting when applied to an
+individual player's statistics.  It provides another way of estimating
+how many runs per game a player would score by batting all the time.  As
+noted above, some baseball statisticians report this number for players,
+but much more common is the \defn{On-base plus slugging} statistic or
+OPS\@. For OPS, simply add the player's slugging average to his on-base
+average.  This simply computed player statistic empirically correlates
+fairly well with the expected number of runs scored using the Markov
+chain model.  More details are in the article by D'Angelo
+\cite{dangelo10}
+
+\subsection*{Changes to the Model} The elementary model here assumes a
+series of identical batters, of course this does not happen in real
+games.  This has been the major criticism of the applicability of Markov
+models.  But emphasizing again, it is possible to have a Markov model
+with different transition matrices for each batter, see
+\cite{osbourne20} for an example. Then the assumption of stationarity is
+dropped and the probability transition matrix changes with each batter
+according to that batter's statistics.  Instead of powers of one
+transition matrix \( P \), use products of the matrices for each batter:
+\( P_1 P_2 \), \( P_1 P_2 P_3 \), etc.  Also, the expected runs on the
+next play column vector \( R \) has to be modified for each batter.
+With such changes, the expected runs generalizes to
+\[
+    E = R_{1} + P_1 R_2 + P_1 P_2 R_3 + P_1 P_2 P_3 R_4 + \cdots\,.
+\] An additional potential complication is that it may be necessary to
+repeat the calculation for several sequences with different first
+batters and then weight the results by the probability of specific
+batters beginning the sequence.  The model can be expanded in a number
+of ways and the utility is limited only by the amount of data available.
+
+\visual{Section Starter Question}{../../../../CommonInformation/Lessons/question_mark.png}
+\section*{Section Ending Answer}
+
+OPS is the sum of ``on-base percentage'' and ``slugging percentage'' to
+get one number that unites the two.  OPS is meant to combine how well a
+hitter can reach base, with how well he can hit for average and for
+power.  ``On-base percentage'' refers to how frequently a batter reaches
+base per plate appearance.  Times on base include hits, walks and
+hit-by-pitches, but do not include errors, times reached on a fielder's
+choice or a dropped third strike.  ``Slugging percentage'' represents
+the total number of bases a player records per at-bat.
+
+\subsection*{Sources} This section is adapted from the articles
+\cite{cover77},
+\cite{dangelo10},
+\cite{osbourne20} and
+\cite{pankin}.  Each of those articles has many further references.  The
+online article \link{http://statshacker.com/blog/2018/05/07/the-markov-chain-model-of-baseball/}
+{The Markov Chain Model of Baseball} has the same basic information as
+this article, but in a condensed form. The definition of OPS is adapted
+from \link{https://www.mlb.com/glossary/standard-stats/on-base-plus-slugging}
+{On-base Plus Slugging}
+
+\nocite{}
+\nocite{}
+
+\hr
+
+\visual{Algorithms, Scripts, Simulations}{../../../../CommonInformation/Lessons/computer.png}
+\section*{Algorithms, Scripts, Simulations}
+
+\subsection*{Algorithm}
+
+\subsection*{Algorithm}
+
+\begin{algorithm}[H]
+    \DontPrintSemicolon
+    \KwData{Basic palyer statistics}
+    \KwResult{Markov runs from each state for the player}
+    \BlankLine
+    \emph{Initialization}\;
+    Enter player statistics\;
+    Initialize with zero simple matrices for the player statistics\;
+    Fill simple matrices with corresponding player statistic\;
+    Transition probability matrix is sum of simple matrices\;
+    Create runs scored matrix\;
+    Expected runs as product of runs scored matrix with player statistics\;
+    \BlankLine
+    \emph{Calculation of Markov runs}\;
+    Direct matrix calculation of Markov runs from submatrix\;
+    Load markovchain library and initialize\;
+    Calculate Markov runs as expectedRewards()
+    \KwRet{Markov runs from each state}
+    \caption{Markov chain simulation.}
+\end{algorithm}
+
+\subsection*{Scripts}
+
+\begin{lstlisting}
+
+rho0 <- 333/596
+rhoB <- 126/596
+rho1 <- 63/596
+rho2 <- 27/596
+rho3 <- 2/596
+rho4 <- 45/596
+
+P0 <- matrix(0, nrow=25, ncol=25)
+PB <- matrix(0, nrow=25, ncol=25)
+P1 <- matrix(0, nrow=25, ncol=25)
+P2 <- matrix(0, nrow=25, ncol=25)
+P3 <- matrix(0, nrow=25, ncol=25)
+P4 <- matrix(0, nrow=25, ncol=25)
+
+##  State          1   2   3   4   5   6   7   8  9   10  11  12  13  14  15  16  17  18  19  20  21  22  23  24
+transitionOut <- c(2,  3, 25,  5,  6, 25,  8,  9, 25, 11, 12, 25, 14, 15, 25, 17, 18, 25, 20, 21, 25, 23, 24, 25)
+transitionBB  <- c(4,  5,  6, 13, 14, 15, 13, 14, 15, 16, 17, 18, 22, 23, 24, 22, 23, 24, 22, 23, 24, 22, 23, 24)
+transition1B  <- c(4,  5,  6, 16, 17, 18,  4,  5,  6,  4,  5,  6, 16, 17, 18, 16, 17, 18, 19, 20, 21, 16, 17, 18)
+transition2B  <- c(7,  8,  9, 19, 20, 21,  7,  8,  9,  7,  8,  9, 19, 20, 21, 19, 20, 21,  7,  8,  9, 19, 20, 21)
+transition3B  <- c(10, 11, 12, 10, 11, 12, 10, 11, 12, 10, 11, 12, 10, 11, 12, 10, 11, 12, 10, 11, 12, 10, 11, 12)
+transitionHR  <- c(1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3, 1, 2, 3)
+
+for (i in 1:24) {
+    P0[i, transitionOut[i] ] <- rho0
+    PB[i, transitionBB[i]  ] <- rhoB
+    P1[i, transition1B[i]  ] <- rho1
+    P2[i, transition2B[i]  ] <- rho2
+    P3[i, transition3B[i]  ] <- rho3
+    P4[i, transitionHR[i]  ] <- rho4
+}
+
+P <- P0 + PB + P1 + P2 + P3 + P4
+P[25, 25] = 1
+
+M <- matrix(0, nrow=25, ncol=5)
+M[22:24,   1] <- 1
+M[7:18,  2:3] <- 1
+M[19:24, 2:3] <- 2
+M[4:12,    4] <- 1
+M[13:21,   4] <- 2
+M[22:24,   4] <- 3
+M[1:3,     5] <- 1
+M[4:12,    5] <- 2
+M[13:21,   5] <- 3
+M[22:24,   5] <- 4
+
+trout <- c(rhoB, rho1, rho2, rho3, rho4)
+runsTrout <- M %*% trout
+
+Q <-  P[1:24, 1:24]
+cat( solve(diag(24) - Q, runsTrout[1:24]) )
+
+library("markovchain")
+nStates <- 25
+baseballStates <- as.character(c(1:nStates))
+mcBaseball <- new("markovchain", states = baseballStates, byrow=TRUE, transitionMatrix = P, name="mcTrout")
+cat( expectedRewards(mcBaseball, 30, runsTrout) )
+\end{lstlisting}
+
+\hr
+
+\visual{Problems to Work}{../../../../CommonInformation/Lessons/solveproblems.png}
+\section*{Problems to Work for Understanding}
+\renewcommand{\theexerciseseries}{}
+\renewcommand{\theexercise}{\arabic{exercise}}
+
+\begin{exercise}
+    Steven Strasburg of the Washington Nationals was the 2019 World
+    Series MVP\@.  Discuss why this model may not useful for assessing
+    Strasburg as a baseball player.
+\end{exercise}
+\begin{solution}
+    In 2019 Strasburg was a pitcher for the Washington Nationals in the
+    National League, as he has been since 2010.  As a pitcher, his
+    hitting skills and run production are not emphasized, it is his
+    pitching that makes him a valuable player.  Furthermore, as a
+    pitcher, he appears in fewer games with even fewer plate
+    appearances.  That means he has a smaller base of hitting statistics
+    for creating the matrix \( P \) so \( P \) may not fully reflect his
+    hitting skills.
+\end{solution}
+
+\begin{exercise}
+    With this model, what is the expected number of at-bats for (\( 9 \)
+    copies of) Mike Trout until the third out in a half-inning?
+\end{exercise}
+\begin{solution}
+    Using the R script with Trout's statistics, the expected time to
+    absorption starting from the first state of no-outs is \( 5.369 \)
+    at-bats per half-inning.
+\end{solution}
+
+\begin{exercise}
+    Consider a player K who each time at bat either hits a home run with
+    probability \( q \) or strikes out with probability \( 1 - q \).
+    Write out the non-zero probability transitions in the matrix \( M_{K}
+    \).
+\end{exercise}
+\begin{solution}
+    In the matrix \( M_{K} \), all entries are \( 0 \) except for the
+    following:
+    \begin{itemize}
+        \item
+            For each \( i \), \( i= 1,\dots, 25 \) and \( j=i \mod 3 \),
+            \( (M_K)_{ij} = q \),
+        \item
+            For each \( i \), \( i= 1,\dots, 25 \) with \( i \ne 0 \mod
+            3 \), and \( j=i+1 \) \( (M_K)_{ij} = 1-q \)
+        \item
+            For each \( i \), \( i= 1,\dots, 25 \) with \( i = 0 \mod 3 \)
+            and \( j=25 \) \( (M_K)_{ij} = 1-q \).
+    \end{itemize}
+    In the special case \( q = 0.1 \), the Markov runs statistics for a
+    half-inning is \( 0.333 \).
+\end{solution}
+
+\begin{exercise}
+    Find the player statistics for the the MVP in the National League
+    and American League for the previous complete baseball season and
+    compute the Markov runs for each.
+\end{exercise}
+\begin{solution}
+    Depends on the player statistics.
+\end{solution}
+
+\begin{exercise}
+    Use this model to calculate the Markov runs for Ted Williams and
+    Babe Ruth.  Does this settle the debate about who is the greatest
+    hitter in baseball history?
+\end{exercise}
+\begin{solution}
+    The lifetime career statistics for Babe Ruth (1914--1935) and Ted
+    Williams (1939--1942, 1946--1960) are in Table~%
+    \ref{tab:baseball:ruthwilliams}.  (Values derived from \link {https://www.baseball-reference.com/players/}
+    {Baseball-Reference}.)
+    \begin{table}
+        \centering
+        \begin{tabular}{lcccccccccc}
+            \toprule          & \(\mathit{AB}\) & \(S\) & \(D\) & \(T\) & \(\mathit{HR}\) & \(\mathit{BB}\) & \(\mathit{AVE}\) & \(SA\)  & \(OB\) & \(OPS\) \\ 
+            \midrule Ruth     & 8399            & 1517  & 506   & 136   & 714             & 2062            & 0.342            & 0.690   & 0.474  & 1.164   \\ 
+            Williams          & 7706            & 1534  & 525   & 71    & 521             & 2021            & 0.344            & 0.634   & 0.482  & 1.116   \\ 
+            \bottomrule
+        \end{tabular}
+        \caption{Statistics for Babe Ruth and Ted Williams.}%
+        \label{tab:baseball:ruthwilliams}
+    \end{table}
+    Then
+    \[
+        \rho_{BR} = (0.412, 0.246, 0.181, 0.060, 0.016, 0.085)
+    \] and
+    \[
+        \rho_{TW} = (0.394, 0.262, 0.199, 0.068, 0.009, 0.068).
+    \] Using these probabilities in the script for Markov runs, the
+    value for Babe Ruth is \( 2.83 \) and the value for Ted Williams is \(
+    3.05 \). The two values are close but Williams has the slightly
+    greater value.
+
+    No statistic can resolve the comparison between these two great
+    players.  Each played in different baseball eras, and each had
+    particular strengths.  Besides, what is to be the basis for
+    comparison, their lifetime statistics used here, or the best career
+    year for each?  If the latter, how to choose the best career year?
+    Note that Williams lost 3 (possibly best) years of his career to
+    military service in World War II\@.  It is interesting to compute
+    the Markov runs for each, but the statistic won't answer this
+    opinion question.
+
+\end{solution}
+
+\hr
+
+\visual{Books}{../../../../CommonInformation/Lessons/books.png}
+\section*{Reading Suggestion:}
+
+\bibliography{../../../../CommonInformation/bibliography}
+
+%   \begin{enumerate}
+%     \item
+%     \item
+%     \item
+%   \end{enumerate}
+
+\hr
+
+\visual{Links}{../../../../CommonInformation/Lessons/chainlink.png}
+\section*{Outside Readings and Links:}
+\begin{enumerate}
+    \item
+    \item
+    \item
+    \item
+\end{enumerate}
+
+\hr
+
+\section*{\solutionsname} \loadSolutions
+
+\hr
+
+\mydisclaim \myfooter
+
+Last modified:  \flastmod
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
